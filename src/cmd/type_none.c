@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:30:15 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 22:39:00 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 22:49:40 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ int quit_fun(int ac, char **av, t_funinfo *info)
 		return (fun_norun(info, "quit", av[0], TYPE_NONE));
 	exit(EXIT_SUCCESS);
 }
+
+int exit_fun(int ac, char **av, t_funinfo *info)
+{
+	(void)ac;
+	if (fun_request_get(info) != REQUEST_RUN)
+		return (fun_norun(info, "exit", av[0], TYPE_NONE));
+	exit(EXIT_SUCCESS);
+}
+
 
 int help_fun(int ac, char **av, t_funinfo *info)
 {

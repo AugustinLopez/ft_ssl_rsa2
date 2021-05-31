@@ -6,14 +6,14 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 19:09:44 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 22:18:23 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 22:57:48 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include "mylib/libft.h"
+#include "di_utils.h"
 
 typedef struct s_md5
 {
@@ -54,64 +54,6 @@ const uint32_t MD5_CONST[64] = {0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee
 							, 0x655b59c3, 0x8f0ccc92, 0xffeff47d, 0x85845dd1
 							, 0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1
 							, 0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391};
-
-
-static inline void swap_byte(uint8_t *a, uint8_t *b)
-{
-	if (*a != *b) {
-		*a = *a ^ *b;
-		*b = *b ^ *a;
-		*a = *a ^ *b;
-	}
-}
-
-static inline uint32_t l_32rot(uint32_t x, size_t shift)
-{
-	return ((x << shift) | (x >> (32 - shift)));
-}
-
-static void	*uint8to32(uint32_t *dest, uint8_t *src, size_t len, int little_endian)
-{
-	if (little_endian == 1) {
-		for (size_t i = 0; i < len; i++)
-			dest[i] = src[i * 4] + (src[i * 4 + 1] << 8)
-			+ (src[i * 4 + 2] << 16) + (src[i * 4 + 3] << 24);
-	}
-	else {
-		for (size_t i = 0; i < len; i++)
-			dest[i] = (src[i * 4] << 24) + (src[i * 4 + 1] << 16)
-			+ (src[i * 4 + 2] << 8) + src[i * 4 + 3];
-	}
-	return (dest);
-}
-
-static char *di_preprocessing(size_t *padded_len, char *tocrypt, size_t len, int little_endian)
-{
-	char	tmp[72];
-	char	*ret;
-	int	pad;
-	int	i;
-
-	ft_memset(tmp, 0, 72);
-	tmp[0] = 0x80;
-	pad = 55 - len % 64;
-	if (pad < 0)
-		pad += 64;
-	i = -1;
-	if (little_endian == 1)
-		while (++i < 8)
-			tmp[pad + 8 - i] = ((len * 8) >> (56 - i * 8)) & 0xff;
-	else
-		while (++i < 8)
-			tmp[pad + 1 + i] = ((len * 8) >> (56 - i * 8)) & 0xff;
-	ret = malloc(len + pad + 9);
-	if (!ret)
-		return (NULL);
-	ft_memcpy(ret, tocrypt, len);
-	ft_memcpy(ret + len, tmp, pad + 9);
-	*padded_len = len + pad + 9;
-	return (ret);
-}
 
 static t_md5	update(t_md5 algo)
 {

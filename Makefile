@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/05/31 22:36:55 by aulopez          ###   ########.fr        #
+#    Updated: 2021/05/31 23:58:03 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CC_C=$(COMPILER) $(FLAGS) $(OBJ)
 
 CMD=main type_none type_digest
 MYLIB=ft_string ft_print ft_strsplit ft_funinfo
-DIGEST=digest md5
+DIGEST=digest di_utils md5 sha256 sha512
 SRC=$(CMD) $(MYLIB) $(DIGEST)
 OBJ=$(SRC:%=$(PATH_OBJ)%.o)
 DEP=$(OBJ:%.o=%.d)

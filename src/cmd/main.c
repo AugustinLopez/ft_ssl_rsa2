@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:30:15 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 22:39:20 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/01 00:00:47 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 #include "mylib/ft_funinfo.h"
 #include "ft_cmd.h"
 
-const t_fun COMMAND[MAX_CMD_NBR] = {quit_fun, help_fun, md5_fun, NULL};
+const t_fun COMMAND[MAX_CMD_NBR] =
+	{quit_fun, exit_fun, help_fun, md5_fun, sha224_fun, sha256_fun
+	, sha512_224_fun, sha512_256_fun, sha384_fun, sha512_fun, NULL};
 
 static int proceed(int ac, char **av)
 {
