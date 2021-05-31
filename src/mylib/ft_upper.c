@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cmd.h                                           :+:      :+:    :+:   */
+/*   ft_upper.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 13:38:52 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 22:39:08 by aulopez          ###   ########.fr       */
+/*   Created: 2021/02/28 11:30:47 by aulopez           #+#    #+#             */
+/*   Updated: 2021/02/28 11:30:52 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_CMD_H
-# define FT_CMD_H
+#include <stddef.h>
 
-#include "mylib/ft_funinfo.h"
-# define MAX_CMD_NBR 32
+char	*ft_upper(char *src)
+{
+	size_t	i;
 
-typedef int (* t_fun)(int, char **, t_funinfo *);
-extern const t_fun COMMAND[MAX_CMD_NBR];
-
-int quit_fun(int ac, char **av, t_funinfo *info);
-int help_fun(int ac, char **av, t_funinfo *info);
-int md5_fun(int ac, char **av, t_funinfo *info);
-#endif
+	i = 0;
+	while (src[i])
+	{
+		if (src[i] >= 'a' && src[i] <= 'z')
+			src[i] += 'A' - 'a';
+		++i;
+	}
+	return (src);
+}

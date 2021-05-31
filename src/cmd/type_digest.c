@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cmd.h                                           :+:      :+:    :+:   */
+/*   type_digest.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 13:38:52 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 22:39:08 by aulopez          ###   ########.fr       */
+/*   Created: 2021/05/31 21:44:46 by aulopez           #+#    #+#             */
+/*   Updated: 2021/05/31 21:52:11 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_CMD_H
-# define FT_CMD_H
-
 #include "mylib/ft_funinfo.h"
-# define MAX_CMD_NBR 32
+#include "di_cmd.h"
 
-typedef int (* t_fun)(int, char **, t_funinfo *);
-extern const t_fun COMMAND[MAX_CMD_NBR];
-
-int quit_fun(int ac, char **av, t_funinfo *info);
-int help_fun(int ac, char **av, t_funinfo *info);
-int md5_fun(int ac, char **av, t_funinfo *info);
-#endif
+int md5_fun(int ac, char **av, t_funinfo *info)
+{
+	if (fun_request_get(info) != REQUEST_RUN)
+		return (fun_norun(info, "md5", av[0], TYPE_DIGEST));
+	return (digest(ac, av, md5));
+}

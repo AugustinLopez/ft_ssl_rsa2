@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 15:52:36 by aulopez           #+#    #+#             */
-/*   Updated: 2021/03/15 18:00:28 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 20:34:30 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,6 @@
 # include <stddef.h>
 # include <string.h>
 # include <stdlib.h>
-
-t_digest	add_elem(t_digest lst, char *add, int is_file)
-{
-	t_list_dig	*elem;
-
-	if (add == NULL)
-	{
-		lst.err = SSL_DIGEST_NULL;
-		return (lst);
-	}
-	elem = (t_list_dig *)malloc(sizeof(t_list_dig));
-	if (elem == NULL)
-	{
-		lst.err = SSL_DIGEST_ERRNO;
-		return (lst);
-	}
-	elem->next = NULL;
-	elem->str = add;
-	elem->is_file = is_file;
-	if (lst.end == NULL)
-		lst.begin = elem;
-	else
-		lst.end->next = elem;
-	lst.end = elem;
-	return (lst);
-}
-
-void		free_elem(t_digest *lst)
-{
-	t_list_dig	*elem;
-	t_list_dig	*tmp;
-
-	elem = lst->begin;
-	while (elem)
-	{
-		tmp = elem;
-		elem = elem->next;
-		free(tmp);
-		tmp = NULL;
-	}
-}
 
 t_string	dig_preprocessing(uint8_t *tocrypt, size_t len, int little_endian)
 {

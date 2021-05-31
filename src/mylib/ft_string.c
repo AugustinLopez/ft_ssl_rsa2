@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:20:26 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 17:58:12 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 21:11:54 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,11 @@ int srlead(t_string *str, size_t remove) {
 		remove = str->len;
 	str->len -= remove;
 	str->ptr += remove;
+	if(str->len == 0) {
+		str->ptr = str->intern_ptr;
+		str->intern_len = 0;
+		str->ptr[str->len] = '\0';
+	}
 	return (0);
 }
 
@@ -134,6 +139,10 @@ int srtrail(t_string *str, size_t remove) {
 	if (remove > str->len)
 		remove = str->len;
 	str->len -= remove;
+	if(str->len == 0) {
+		str->ptr = str->intern_ptr;
+		str->intern_len = 0;
+	}
 	str->ptr[str->len] = '\0';
 	return (0);
 }

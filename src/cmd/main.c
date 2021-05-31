@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:30:15 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 17:52:59 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 22:39:20 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "mylib/ft_funinfo.h"
 #include "ft_cmd.h"
 
-const t_fun COMMAND[MAX_CMD_NBR] = {quit_fun, help_fun, test_fun, NULL};
+const t_fun COMMAND[MAX_CMD_NBR] = {quit_fun, help_fun, md5_fun, NULL};
 
 static int proceed(int ac, char **av)
 {
@@ -94,7 +94,8 @@ int command_line(void)
 		err = 0;
 		if (av[0] != NULL) {
 			ac = 0;
-			while ((av)[(ac)++]);
+			while ((av)[ac])
+				ac++;
 			proceed(ac, av);
 		}
 		ft_freesplit(av);

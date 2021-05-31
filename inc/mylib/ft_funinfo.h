@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 14:06:45 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 16:21:52 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 21:55:41 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_FUNINFO_H
 
 #include <stddef.h>
+#include <sys/types.h>
 
 # define TYPE_NONE 0x0
 # define TYPE_DIGEST 0x1

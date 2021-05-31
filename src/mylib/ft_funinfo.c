@@ -6,11 +6,12 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 13:48:02 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 16:15:20 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 22:05:39 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stddef.h>
 #include <unistd.h>
 #include "mylib/libft.h"
 #include "mylib/ft_funinfo.h"
@@ -24,6 +25,7 @@ void fun_info_set(t_funinfo *info, char *progname, int type)
 	if (len > 255)
 		len = 255;
 	ft_memcpy(info->fun_name, progname, len);
+	info->fun_name[len] = 0;
 	info->fun_len = ft_strlen(info->fun_name);
 }
 

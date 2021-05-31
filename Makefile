@@ -6,13 +6,13 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/05/31 17:56:53 by aulopez          ###   ########.fr        #
+#    Updated: 2021/05/31 22:36:55 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=ft_ssl
 COMPILER=gcc
-FLAGS=-g3 -fsanitize=address -Wall -Wextra -MMD -MP
+FLAGS=-g3 -Wall -Wextra -MMD -MP
 
 VPATH=	src/cmd:src/mylib:src/digest
 PATH_OBJ=.object/
@@ -21,9 +21,9 @@ PATH_HDR=./inc/
 CC_O=$(COMPILER) $(FLAGS) -c -I$(PATH_HDR)
 CC_C=$(COMPILER) $(FLAGS) $(OBJ)
 
-CMD=main quit_help
+CMD=main type_none type_digest
 MYLIB=ft_string ft_print ft_strsplit ft_funinfo
-DIGEST=av_digest
+DIGEST=digest md5
 SRC=$(CMD) $(MYLIB) $(DIGEST)
 OBJ=$(SRC:%=$(PATH_OBJ)%.o)
 DEP=$(OBJ:%.o=%.d)

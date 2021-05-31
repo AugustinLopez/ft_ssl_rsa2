@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quit_help.c                                        :+:      :+:    :+:   */
+/*   type_none.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:30:15 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 17:55:20 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/05/31 22:39:00 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,6 @@
 #include "mylib/ft_funinfo.h"
 #include "mylib/libft.h"
 #include "ft_cmd.h"
-
-#include "mylib/ft_string.h"
-
-int test_fun(int ac, char **av, t_funinfo *info)
-{
-	t_string *test;
-
-	(void)ac;
-	if (fun_request_get(info) != REQUEST_RUN)
-		return (fun_norun(info, "test", av[0], TYPE_NONE));
-	if (sfromfd(&test, STDIN_FILENO) != -1)
-		write(STDOUT_FILENO, sptr(test), slen(test));
-	return (0);
-}
-
 
 int quit_fun(int ac, char **av, t_funinfo *info)
 {
