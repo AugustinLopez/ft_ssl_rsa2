@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 13:48:02 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 22:05:39 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/01 01:01:25 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void fun_info_set(t_funinfo *info, char *progname, int type)
 		len = 255;
 	ft_memcpy(info->fun_name, progname, len);
 	info->fun_name[len] = 0;
-	info->fun_len = ft_strlen(info->fun_name);
+	info->fun_len = len;
 }
 
 int fun_name_check(t_funinfo *info, char *progname)
@@ -87,8 +87,10 @@ ssize_t fun_print(t_funinfo *info)
 int fun_norun(t_funinfo *info, char *progname, char *av_zero, int type)
 {
 	if (fun_request_get(info) == REQUEST_PRINT) {
-		if (fun_type_get(info) == type)
+		if (fun_type_get(info) == type) {
+			fun_info_set(info, progname, type);
 			fun_print(info);
+		}
 	}
 	else if (fun_request_get(info) == REQUEST_INFO) {
 		fun_info_set(info, progname, type);
