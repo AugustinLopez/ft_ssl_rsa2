@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 13:38:52 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/01 00:01:22 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/03 14:54:07 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,6 @@ int sha512_224_fun(int ac, char **av, t_funinfo *info);
 int sha512_256_fun(int ac, char **av, t_funinfo *info);
 int sha384_fun(int ac, char **av, t_funinfo *info);
 int sha512_fun(int ac, char **av, t_funinfo *info);
+
+int base64_fun(int ac, char **av, t_funinfo *info);
 #endif

@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:45:40 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 22:30:59 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/03 16:17:25 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <string.h>
 #include "di_cmd.h"
 #include "mylib/libft.h"
 #include "mylib/ft_string.h"

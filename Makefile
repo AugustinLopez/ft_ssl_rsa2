@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/05/31 23:58:03 by aulopez          ###   ########.fr        #
+#    Updated: 2021/06/03 17:26:04 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,18 @@ NAME=ft_ssl
 COMPILER=gcc
 FLAGS=-g3 -Wall -Wextra -MMD -MP
 
-VPATH=	src/cmd:src/mylib:src/digest
+VPATH=	src/cmd:src/mylib:src/digest:src/cypher
 PATH_OBJ=.object/
 PATH_HDR=./inc/
 
 CC_O=$(COMPILER) $(FLAGS) -c -I$(PATH_HDR)
 CC_C=$(COMPILER) $(FLAGS) $(OBJ)
 
-CMD=main type_none type_digest
+CMD=main type_none type_digest type_cypher
 MYLIB=ft_string ft_print ft_strsplit ft_funinfo
 DIGEST=digest di_utils md5 sha256 sha512
-SRC=$(CMD) $(MYLIB) $(DIGEST)
+CYPHER=cypher base64 decode_b64 encode_b64
+SRC=$(CMD) $(MYLIB) $(DIGEST) $(CYPHER)
 OBJ=$(SRC:%=$(PATH_OBJ)%.o)
 DEP=$(OBJ:%.o=%.d)
 
