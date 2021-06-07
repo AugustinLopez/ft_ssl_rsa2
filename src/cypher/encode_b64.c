@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:47:35 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/03 17:28:27 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/07 11:40:35 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ int		encode_base64(t_string **str, char *src, size_t len)
 		if (satrail(*str, "====", 4) == -1)
 			return (-1);
 	}
-	perform_encoding_b64((uint8_t *)src, (uint8_t *)sptr(*str), slen(*str));
+	perform_encoding_b64((uint8_t *)src, (uint8_t *)sptr(*str), len);
 	return (0);
 }

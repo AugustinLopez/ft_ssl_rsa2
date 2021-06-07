@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:47:35 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/03 17:27:51 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/07 12:37:39 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static int		nt_letter(int i, t_string *ret, int8_t *buf)
 		letter = ((buf[1] & 0xf) << 4) | ((buf[2] & 0x3c) >> 2);
 	else if (i == 3)
 		letter = ((buf[2] & 0x3) << 6) | buf[3];
-	letter = (buf[0] << 2) | ((buf[1] & 0x30) >> 4);
 	if (satrail(ret, (char *)&letter, 1) == -1) {
 		print_err("base64", 0, 0, errno);
 		return (-1);

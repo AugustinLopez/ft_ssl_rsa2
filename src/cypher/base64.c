@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:47:35 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/03 17:39:30 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/07 12:36:57 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ int	base64_cypher(t_cypher *arg)
 
 	if (cypher_input(&input, arg->av_input) == -1)
 		return (-1);
-	else if (slen(input) == 0) {
-		sfree(input);
-		return (0);
-	}
 	if (arg->option & CYPHER_DECRYPT)
 		ret = decode_base64(&output, sptr(input), slen(input));
 	else

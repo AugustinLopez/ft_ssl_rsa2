@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:20:26 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 21:11:54 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/07 11:26:21 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ int sfromfd(t_string **str, const int fd)
 		return (-1);
 	len = read(fd, buffer, 1024);
 	while (len > 0) {
-		if (satrail(tmp, buffer, len) == -1)
+		if (satrail(tmp, buffer, (size_t)len) == -1)
 			return (-1);
 		len = read(fd, buffer, 1024);
 	}

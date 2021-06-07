@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:45:40 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/31 21:56:29 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/07 11:27:03 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct	s_digest {
 	t_list_arg	*end;
 	char		*name;
 	uint8_t		option;
-	int8_t		err;
+	int			err;
 }				t_digest;
 
 int			digest(int ac, char **av, t_fun_dig algo);

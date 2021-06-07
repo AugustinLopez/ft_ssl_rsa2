@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 19:09:44 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/01 00:47:19 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/07 11:30:49 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	*uint8to32(uint32_t *dest, uint8_t *src, size_t len, int little_endian)
 {
 	if (little_endian == 1) {
 		for (size_t i = 0; i < len; i++)
-			dest[i] = src[i * 4] + (src[i * 4 + 1] << 8)
-			+ (src[i * 4 + 2] << 16) + (src[i * 4 + 3] << 24);
+			dest[i] = src[i * 4] + (src[i * 4 + 1] << 8) + (src[i * 4 + 2] << 16)
+			+ (src[i * 4 + 3] << 24);
 	}
 	else {
 		for (size_t i = 0; i < len; i++)
