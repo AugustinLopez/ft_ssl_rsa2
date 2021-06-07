@@ -6,15 +6,15 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/06/07 11:30:42 by aulopez          ###   ########.fr        #
+#    Updated: 2021/06/07 16:37:49 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=ft_ssl
 COMPILER=gcc
-FLAGS=-g3 -Wall -Wextra -MMD -MP
+FLAGS=-g3 -fsanitize=address -Wall -Wextra -MMD -MP
 
-VPATH=	src/cmd:src/mylib:src/digest:src/cypher
+VPATH=	src/cmd:src/mylib:src/digest:src/cypher:src/cypher/base64
 PATH_OBJ=.object/
 PATH_HDR=./inc/
 
@@ -22,9 +22,9 @@ CC_O=$(COMPILER) $(FLAGS) -c -I$(PATH_HDR)
 CC_C=$(COMPILER) $(FLAGS) $(OBJ)
 
 CMD=main type_none type_digest type_cypher
-MYLIB=ft_string ft_print ft_strsplit ft_funinfo
+MYLIB=ft_string ft_print ft_strsplit ft_funinfo ft_rand
 DIGEST=digest di_utils md5 sha256 sha512
-CYPHER=cypher base64 decode_b64 encode_b64
+CYPHER=cypher cypher64 decode_b64 encode_b64 des_ecb
 SRC=$(CMD) $(MYLIB) $(DIGEST) $(CYPHER)
 OBJ=$(SRC:%=$(PATH_OBJ)%.o)
 DEP=$(OBJ:%.o=%.d)

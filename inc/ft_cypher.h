@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:45:40 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/03 17:29:52 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/07 16:19:18 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,7 @@ typedef int (* t_fun_cyp)(t_cypher *);
 int cypher(int ac, char **av, t_fun_cyp algo);
 int cypher_output(char *av_output, t_string *src, int is_ascii_64);
 int cypher_input(t_string **str, char *filename);
+
 int base64_cypher(t_cypher *arg);
+int des_ecb_cypher(t_cypher *arg);
 #endif
