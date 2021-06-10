@@ -6,12 +6,12 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 21:44:46 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/07 16:19:31 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 19:07:12 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mylib/ft_funinfo.h"
-#include "ft_cypher.h"
+#include "cy_cmd.h"
 
 int base64_fun(int ac, char **av, t_funinfo *info)
 {
@@ -26,3 +26,25 @@ int des_ecb_fun(int ac, char **av, t_funinfo *info)
 		return (fun_norun(info, "des-ecb", av[0], TYPE_CYPHER));
 	return (cypher(ac, av, des_ecb_cypher));
 }
+
+int des3_ecb_fun(int ac, char **av, t_funinfo *info)
+{
+	if (fun_request_get(info) != REQUEST_RUN)
+		return (fun_norun(info, "des-ede3", av[0], TYPE_CYPHER));
+	return (cypher(ac, av, des3_ecb_cypher));
+}
+
+int des_cbc_fun(int ac, char **av, t_funinfo *info)
+{
+	if (fun_request_get(info) != REQUEST_RUN)
+		return (fun_norun(info, "des-cbc", av[0], TYPE_CYPHER));
+	return (cypher(ac, av, des_cbc_cypher));
+}
+
+int des_fun(int ac, char **av, t_funinfo *info)
+{
+	if (fun_request_get(info) != REQUEST_RUN)
+		return (fun_norun(info, "des", av[0], TYPE_CYPHER));
+	return (cypher(ac, av, des_cbc_cypher));
+}
+

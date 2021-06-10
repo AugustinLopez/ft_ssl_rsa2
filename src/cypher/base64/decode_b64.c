@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:47:35 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/07 12:37:39 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 18:00:40 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,5 @@ int		decode_base64(t_string **str, char *src, size_t len)
 	}
 	if (ret == -1)
 		*str = NULL;
-	return (0);
+	return (ret);
 }

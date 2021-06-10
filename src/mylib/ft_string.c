@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:20:26 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/07 18:26:47 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 14:37:55 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ typedef struct s_string {
 
 void sfree(t_string *str)
 {
-	free(str->intern_ptr);
-	free(str);
+	if (str) {
+		if (str->intern_ptr)
+			free(str->intern_ptr);
+		free(str);
+	}
 }
 
 void sdel(t_string **str)

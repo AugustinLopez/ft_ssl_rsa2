@@ -6,11 +6,11 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/22 11:47:35 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/07 13:16:32 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 15:00:21 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_cypher.h"
+#include "cy_cmd.h"
 #include "mylib/ft_string.h"
 
 int	base64_cypher(t_cypher *arg)
