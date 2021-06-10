@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 13:00:56 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/11 01:07:57 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/11 01:13:04 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	des3_ofb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decr
 	uint8_t nr48key[3][16][6];
 	uint8_t tmp[8];
 
+	(void)decrypt;
 	ft_memset(nr48key, 0, sizeof(nr48key));
 	ft_memcpy(tmp, vector, 8);
 	des_key(3, nkey, nr48key);
