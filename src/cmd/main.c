@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:30:15 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 19:06:39 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 22:08:00 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ const t_fun COMMAND[MAX_CMD_NBR] =
 	{quit_fun, exit_fun, help_fun
 	, md5_fun, sha224_fun, sha256_fun
 	, sha512_224_fun, sha512_256_fun, sha384_fun, sha512_fun
-	, base64_fun, des_fun, des_ecb_fun, des_cbc_fun, des3_ecb_fun, NULL};
+	, base64_fun, des_fun, des_ecb_fun, des_cbc_fun, des_cfb_fun, des_ofb_fun
+	, des3_fun, des3_ecb_fun, des3_cbc_fun, des3_cfb_fun, des3_ofb_fun, NULL};
 
 static int proceed(int ac, char **av)
 {

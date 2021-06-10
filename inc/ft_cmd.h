@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 13:38:52 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 19:06:18 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 22:07:43 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,11 @@ int base64_fun(int ac, char **av, t_funinfo *info);
 int des_ecb_fun(int ac, char **av, t_funinfo *info);
 int des3_ecb_fun(int ac, char **av, t_funinfo *info);
 int des_cbc_fun(int ac, char **av, t_funinfo *info);
+int des_cfb_fun(int ac, char **av, t_funinfo *info);
+int des_ofb_fun(int ac, char **av, t_funinfo *info);
 int des_fun(int ac, char **av, t_funinfo *info);
+int des3_cbc_fun(int ac, char **av, t_funinfo *info);
+int des3_fun(int ac, char **av, t_funinfo *info);
+int des3_cfb_fun(int ac, char **av, t_funinfo *info);
+int des3_ofb_fun(int ac, char **av, t_funinfo *info);
 #endif

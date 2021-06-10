@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/06/10 19:07:37 by aulopez          ###   ########.fr        #
+#    Updated: 2021/06/10 22:07:32 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ CMD=main type_none type_digest type_cypher
 MYLIB=ft_string ft_print ft_strsplit ft_funinfo ft_rand
 DIGEST=digest di_utils md5 sha256 sha512
 CYPHER=cypher cypher64 decode_b64 encode_b64 des_input des_output \
-	des_algorithm des_ecb des3_ecb des_cbc
+	des_algorithm des_ecb des3_ecb des_cbc des3_cbc des_cfb des3_cfb \
+	des3_ofb des_ofb
 SRC=$(CMD) $(MYLIB) $(DIGEST) $(CYPHER)
 OBJ=$(SRC:%=$(PATH_OBJ)%.o)
 DEP=$(OBJ:%.o=%.d)

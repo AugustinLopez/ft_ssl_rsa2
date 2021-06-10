@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 13:00:56 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 19:30:10 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 23:25:14 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,11 @@ char		*pbkdf(uint8_t *pwd, size_t len, uint8_t *salt, int key)
 		free(tmp);
 		return (NULL);
 	}
-	tmp3 = malloc(33 * sizeof(char));
+	tmp3 = malloc(65 * sizeof(char));
 	if (tmp3) {
-		ft_strncpy(tmp3, tmp, 16);
-		ft_strncpy(tmp3 + 16, tmp2, 16);
-		tmp3[32] = 0;
+		ft_strncpy(tmp3, tmp, 32);
+		ft_strncpy(tmp3 + 32, tmp2, 32);
+		tmp3[64] = 0;
 	}
 	free(tmp);
 	free(tmp2);
@@ -181,7 +181,7 @@ static int	dpassword_provided(t_cypher *arg, t_string **input)
 		n = cypher_input(input, arg->av_input);
 	if (n == -1)
 		return (-1);
-	
+
 	//salt
 	len = ft_strlen(pwd);
 	if (slen(*input) < 8 || ft_memcmp(sptr(*input), "Salted__", 8) != 0 || slen(*input) < 16) {
@@ -302,12 +302,15 @@ int		des_input_todecrypt(t_cypher *arg, t_string **input)
 	else if (arg->av_key == NULL && dpassword_provided(arg, input) == -1)
 		return (-1);
 	if (arg->option & CYPHER_INFO) {
-		sfree(*input);
+		if (arg->av_key == NULL)
+			sfree(*input);
 		return (0);
 	}
+	if (arg->av_key == NULL)
+		return (0);
 	if (arg->option & CYPHER_BASE64) {
 		if (cypher_input(&tmp, arg->av_input) == -1)
-			return (-1);
+				return (-1);
 		n = decode_base64(input, sptr(tmp), slen(tmp));
 		sfree(tmp);
 	}

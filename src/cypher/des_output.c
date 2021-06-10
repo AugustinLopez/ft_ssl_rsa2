@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 13:00:56 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 19:36:29 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/10 22:49:37 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	valid_output(t_string *input)
 	if (slen(input) == 0)
 		ret = 0;
 	else
-		ret = sptr(input)[slen(input) -1];
+		ret = sptr(input)[slen(input) - 1];
 	if (ret < 1 || ret > 16 || slen(input) < ret) {
 		write(STDERR_FILENO, "bad magic number\n", 17);
 		return (-1);
