@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:45:40 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 22:07:49 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/11 01:38:43 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@
 
 int	decode_base64(t_string **str, char *src, size_t len);
 int encode_base64(t_string **str, char *src, size_t len);
-
-typedef struct s_cypher t_cypher;
-int base64_cypher(t_cypher *arg);
-int des_ecb_cypher(t_cypher *arg);
-int des3_ecb_cypher(t_cypher *arg);
-int des_cbc_cypher(t_cypher *arg);
-int des3_cbc_cypher(t_cypher *arg);
-int des_cfb_cypher(t_cypher *arg);
-int des3_cfb_cypher(t_cypher *arg);
-int des_ofb_cypher(t_cypher *arg);
-int des3_ofb_cypher(t_cypher *arg);
+void des_ecb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+void des3_ecb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+void des_cbc(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+void des3_cbc(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+void des_ofb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+void des3_ofb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+void des_cfb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+void des3_cfb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
 #endif

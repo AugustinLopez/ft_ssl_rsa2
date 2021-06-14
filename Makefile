@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/06/10 22:07:32 by aulopez          ###   ########.fr        #
+#    Updated: 2021/06/11 01:29:59 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ PATH_HDR=./inc/
 CC_O=$(COMPILER) $(FLAGS) -c -I$(PATH_HDR)
 CC_C=$(COMPILER) $(FLAGS) $(OBJ)
 
-CMD=main type_none type_digest type_cypher
+CMD=main type_none type_digest type_cypher type_standard
 MYLIB=ft_string ft_print ft_strsplit ft_funinfo ft_rand
 DIGEST=digest di_utils md5 sha256 sha512
 CYPHER=cypher cypher64 decode_b64 encode_b64 des_input des_output \
