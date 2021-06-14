@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   genrsa.c                                           :+:      :+:    :+:   */
+/*   oldgen.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/10 13:34:13 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/27 14:52:00 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/14 16:42:18 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,154 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+int64_t mul_inv(uint64_t a, uint64_t b)
+{
+	int64_t t;
+	int64_t nt;
+	uint64_t r;
+	uint64_t nr;
+	uint64_t q;
+	uint64_t tmp;
+
+	t = 0;
+	nt = 1;
+	r = b;
+	nr = a % b;
+	while (nr) {
+		q = r/nr;
+		tmp = nt;
+		nt = t - (int64_t)q*nt;
+		t = tmp;
+		tmp = nr;
+		nr = r - q*nr;
+		r = tmp;
+	}
+	if (r > 1)
+		return 0;
+	if (t < 0)
+		t += b;
+	printf("%llu\n", (uint64_t)t);
+	return t;
+}
+
+uint64_t mul_inv2(uint64_t a, uint64_t b)
+{
+	int64_t t[3] = {0, 1, 0};
+	uint64_t r[3] = {b, a % b, 0};
+	uint64_t q;
+
+	while (r[1]) {
+		q = r[0] / r[1];
+		t[2] = t[1];
+		t[1] = t[0] - (int64_t)q * t[1];
+		t[0] = t[2];
+		r[2] = r[1];
+		r[1] = r[0] - q * r[1];
+		r[0] = r[2];
+	}
+	if (r[0] > 1)
+		return (0);
+	if (t[0] < 0)
+		t[0] += b;
+	return ((uint64_t)t[0]);
+
+}
+
+
+uint64_t extended_euclidean(uint64_t integer, uint64_t modulo)
+{
+	int64_t a[3] = {0, 17, 780};
+	int64_t x[3] = {1, 0, 0};
+	int64_t y[3] = {0, 1, 0};
+	int64_t q = 0;
+	int64_t qq = 0;
+
+	while (a[2]) {
+		qq = (int64_t)q;
+		x[2] = x[0] - qq * x[1];
+		y[2] = y[0] - qq * y[1];
+		x[0] = x[1];
+		y[0] = y[1];
+		a[0] = a[1];
+		x[1] = x[2];
+		y[1] = y[2];
+		a[1] = a[2];
+		q = a[0] / a[1];
+		a[2] = a[0] - q * a[1];
+	}
+	printf("%lli - %llx\n",  y[1], y[1]);
+	return (x[1]);
+}
+
+/*
+void extended_euclidean(const U a, const U b, U* pGcd, S* pX, S* pY)
+{
+   static_assert(std::numeric_limits<S>::is_integer, "");
+   static_assert(std::numeric_limits<S>::is_signed, "");
+   static_assert(std::numeric_limits<U>::is_integer, "");
+   static_assert(!(std::numeric_limits<U>::is_signed), "");
+   static_assert(std::is_same<std::make_signed<U>::type, S>::value, "");
+   S x1=1, y1=0;
+   U a1=a;
+   S x0=0, y0=1;
+   U a2=b, q=0;
+
+   while (a2 != 0) {
+      S x2 = x0 - static_cast<S>(q)*x1;
+      S y2 = y0 - static_cast<S>(q)*y1;
+      x0=x1; y0=y1;
+      U a0=a1;
+      x1=x2; y1=y2; a1=a2;
+
+      q = a0/a1;
+      a2 = a0 - q*a1;
+   }
+   *pX = x1;
+   *pY = y1;
+   *pGcd = a1;
+}*/
+
+uint64_t modmulinv(uint64_t integer, uint64_t modulo) {
+	uint64_t r[2] = {17, 780};
+	int64_t s[2] = {1, 0};
+	int64_t t[2] = {0, 1};
+
+	while (r[1]) {
+		uint64_t quotient = r[0] / r[1];
+		uint64_t tmp = r[1];
+		r[1] = r[0] - quotient * tmp;
+		r[0] = tmp;
+		tmp = s[1];
+		s[1] = s[0] - (int64_t)quotient * tmp;
+		s[0] = tmp;
+		tmp = t[1];
+		t[1] = t[0] - (int64_t)quotient * tmp;
+		t[0] = tmp;
+	}
+	printf("%lli %lli\n", r[0], r[1]);
+	return (s[0]);
+/*function extended_gcd(a, b)
+(old_r, r) := (r, old_r - quotient *r) //
+//
+prov := r;
+r := old_r - quotient × prov;
+old_r := prov;
+//
+    (old_r, r) := (a, b)
+    (old_s, s) := (1, 0)
+    (old_t, t) := (0, 1)
+    
+    while r ≠ 0 do
+        quotient := old_r div r
+        (old_r, r) := (r, old_r − quotient × r)
+        (old_s, s) := (s, old_s − quotient × s)
+        (old_t, t) := (t, old_t − quotient × t)*/
+}
+
+
+
+
 
 //Very complicated stuff to avoid overflow issue
 //Stackoverflow 12168348. Some kind of Russian Peasant multiplication
@@ -227,33 +375,27 @@ int64_t modInverse(int a, int m)
 
 	return x;
 }
-int64_t mul_inv(uint32_t a, uint32_t b)
-{
-	int64_t t;
-	int64_t nt;
-	int64_t r;
-	int64_t nr;
-	int64_t q;
-	int64_t tmp;
 
-	t = 0;
-	nt = 1;
-	r = b;
-	nr = a % b;
-	while (nr) {
-		q = r/nr;
-		tmp = nt;
-		nt = t - q*nt;
-		t = tmp;
-		tmp = nr;
-		nr = r - q*nr;
-		r = tmp;
-	}
-	if (r > 1)
-		return 0;
-	if (t < 0)
-		t += b;
-	return t;
+
+uint64_t mulmod(uint64_t a, uint64_t b, uint64_t mod)
+{
+    uint64_t res = 0; // Initialize result
+    a = a % mod;
+    while (b > 0)
+    {
+        // If b is odd, add 'a' to result
+        if (b % 2 == 1)
+            res = (res + a) % mod;
+ 
+        // Multiply 'a' with 2
+        a = (a * 2) % mod;
+ 
+        // Divide b by 2
+        b /= 2;
+    }
+ 
+    // Return result
+    return res % mod;
 }
 
 int main(void)
@@ -265,17 +407,26 @@ int main(void)
 	uint64_t test;
 
 	e = 65537;
-//	p1 = 61;
-//	p2 = 53;
+	p1 = 0xf8b6215b;
+	p2 = 0xf15b58c5;
 	while (p1 <= 1)
 		p1 = find_prime32();
 	while (p2 <= 1)
 		p2 = find_prime32();
-	carmi = lcm(p1 - 1, p2 - 1);
+	mul_inv(e, 16896437491524335848ULL);
+	mul_inv2(e, 16896437491524335848ULL);
+//	carmi = lcm(p1 - 1, p2 - 1);
+	/*carmi = (p1 - 1) * ( p2 - 1);
+	printf("p   : %llu - %llx\n", p1, p1);
+	printf("q   : %llu - %llx\n", p2, p2);
+	printf("n   : %llu - %llx\n", p1 * p2, p1 * p2);
+	printf("test: %llu - %llx\n", modmulinv(e, 16896437491524335848ULL), extended_euclidean(e, 16896437491524335848ULL));
+	printf("lcm : %llu - %llx\n", (p1 - 1) * (p2 - 1), (p1 - 1) * (p2 - 1));
+	printf("test: %llu - %llx\n", 9221019932585553137ULL, 9221019932585553137ULL);
 	test = gcd(e, carmi);
-//	printf("%llu\n", modInverse(17, 780));
-	printf("%llu %llu %llu %llu %llu\n", p1, p2, p1 * p2, carmi, test);
-	return (0);
+	printf("%llu\n", carmi);
+	printf("%llx\n", 772801186823385213LL);
+	printf("%llx\n", modInverse(e, carmi));
+	printf("%llx %llx %llx %llx %llx\n", p1, p2, p1 * p2, carmi, test);
+	*/return (0);
 }
-
-
