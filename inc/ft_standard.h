@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   type_standard.c                                    :+:      :+:    :+:   */
+/*   ft_standard.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/11 01:28:03 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/17 13:35:16 by aulopez          ###   ########.fr       */
+/*   Created: 2021/05/31 16:45:40 by aulopez           #+#    #+#             */
+/*   Updated: 2021/06/17 13:01:47 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mylib/ft_funinfo.h"
+#ifndef FT_STANDARD_H
+# define FT_STANDARD_H
 
-int genrsa_fun(int ac, char **av, t_funinfo *info)
-{
-	if (fun_request_get(info) != REQUEST_RUN)
-		return (fun_norun(info, "genrsa", av[0], TYPE_STANDARD));
-	return (cmd_genrsa(ac, av));
-}
+#include <stdint.h>
+#include "mylib/ft_string.h"
+
+t_string *genrsa(uint64_t p, uint64_t q, uint64_t e);
+
+#endif

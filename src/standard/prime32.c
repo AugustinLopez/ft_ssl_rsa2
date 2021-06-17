@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prime_generator.c                                  :+:      :+:    :+:   */
+/*   prime32.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 13:34:13 by aulopez           #+#    #+#             */
-/*   Updated: 2021/05/11 10:47:37 by aulopez          ###   ########.fr       */
+/*   Created: 2021/06/17 10:27:41 by aulopez           #+#    #+#             */
+/*   Updated: 2021/06/17 12:41:22 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <limits.h>
 #include <stdint.h>
+#include <limits.h>
 #include <unistd.h>
-#include <fcntl.h>
+#include "mylib/libft.h"
 
 //Very complicated stuff to avoid overflow issue
 //Stackoverflow 12168348. Some kind of Russian Peasant multiplication
@@ -84,14 +83,10 @@ static int witness(uint64_t n, uint64_t s, uint64_t d, uint64_t a)
 	return (1);
 }
 
-static int miller_rabbin(uint64_t n, uint8_t probability)
+int deterministic_miller_rabbin(uint64_t n)
 {
 	uint64_t	d;
 	uint64_t	s;
-
-	//subject expect a probabilistic version. But for 64-bit, the deterministic
-	//is fast enough.
-	(void)probability;
 
 	//case 0, 1, 2, 3, mod 2, mod 3
 	//This is because n must be > 3 in this implementation of the witness loop
@@ -145,53 +140,50 @@ static int miller_rabbin(uint64_t n, uint8_t probability)
 	&& witness(n, s, d, 31) && witness(n, s, d, 37);
 }
 
-uint64_t		ft_rand2(void)
-{
-	int			fd;
-	ssize_t		len;
-	uint64_t	ret;
 
-	fd = open("/dev/urandom", O_RDONLY);
-	if (fd < 0)
-		return (0);
-	len = read(fd, &ret, sizeof(ret));
+static int subject_with_oversight(uint64_t candidate, uint8_t probability)
+{
+	int ret;
+
+	//"A probability between 0 and 100 that the given [64-bits] number is a prime.". Oof.
+	//
+	//1. For 64-bit unsigned integer there is a deterministic algorithm
+	//2. The test check if a number is not a prime. (important for 3.).
+	//3. There is NEVER a false positive. (test says not a prime if prime).
+	//   We are optimizing the false negative case. (test says prime if not a prime)
+	//4. The probability in this context depend on a number of round.
+	//5. For any given number, the probability is NEVER in a [0-100]% interval.
+
+	ret = deterministic_miller_rabbin(candidate);
+	//I will only defend against the case probability = 0%...
+	if (probability == 0)
+		ret = 1 - ret;
 	return (ret);
 }
 
-uint64_t find_prime64(void) {
-	uint64_t	ret;
-	int			test;
+uint32_t find_prime32(uint32_t seed, int use_seed, int output) {
+	uint32_t ret;
+	int test;
 
-	ret = ft_rand2();
-	test = miller_rabbin(ret, 100);
+	if (use_seed)
+		ret = seed;
+	else
+		ret = (uint32_t)ft_rand();
+	ret |= 0xc0000000; //first bit active to have a 32 bit size.
+					//and we need something greater than or equal to 0x8000000b
+					//so we activate first 2 bit and call it a day.
+
+	test = subject_with_oversight(ret, 100);
+	if (output)
+		write(STDERR_FILENO, ".", 1);
 	while (1) {
 		if (test == 1)
 			break ;
-		test = miller_rabbin(--ret, 100);
+		test = subject_with_oversight(++ret, 100);
+		if (output)
+			write(STDERR_FILENO, ".", 1);
 	}
+	if (output)
+		write(STDERR_FILENO, "*\n", 2);
 	return (ret);
-}
-
-uint32_t find_prime32(void) {
-	uint64_t	ret;
-	int			test;
-
-	ret = (uint32_t)ft_rand2();
-	test = miller_rabbin(ret, 100);
-	while (1) {
-		if (test == 1)
-			break ;
-		test = miller_rabbin(--ret, 100);
-	}
-	return (ret);
-}
-
-
-int main(void)
-{
-	uint64_t prime;
-
-	prime = find_prime32();
-	printf("%llu\n", prime);
-	return (0);
 }

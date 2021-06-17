@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/06/11 01:29:59 by aulopez          ###   ########.fr        #
+#    Updated: 2021/06/17 13:35:41 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME=ft_ssl
 COMPILER=gcc
 FLAGS=-g3 -fsanitize=address -Wall -Wextra -MMD -MP
 
-VPATH=	src/cmd:src/mylib:src/digest:src/cypher:src/cypher/base64
+VPATH=	src/cmd:src/mylib:src/digest:src/cypher:src/cypher/base64:src/standard
 PATH_OBJ=.object/
 PATH_HDR=./inc/
 
@@ -27,7 +27,8 @@ DIGEST=digest di_utils md5 sha256 sha512
 CYPHER=cypher cypher64 decode_b64 encode_b64 des_input des_output \
 	des_algorithm des_ecb des3_ecb des_cbc des3_cbc des_cfb des3_cfb \
 	des3_ofb des_ofb
-SRC=$(CMD) $(MYLIB) $(DIGEST) $(CYPHER)
+STANDARD=prime32 genrsa cmd_genrsa
+SRC=$(CMD) $(MYLIB) $(DIGEST) $(CYPHER) $(STANDARD)
 OBJ=$(SRC:%=$(PATH_OBJ)%.o)
 DEP=$(OBJ:%.o=%.d)
 

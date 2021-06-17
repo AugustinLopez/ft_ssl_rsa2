@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 14:57:02 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 19:30:03 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/06/17 12:46:11 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int cypher_output(char *av_output, t_string *src, int is_ascii_64)
 		else
 			print_err("cypher", av_output, 0, errno);
 	}
-	if (fd != STDOUT_FILENO && close(fd) < 0)
+	if (av_output && close(fd) < 0)
 		print_err("Warning", av_output, 0, errno);
 	return (check);
 }
