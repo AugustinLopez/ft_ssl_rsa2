@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_rsa.c                                          :+:      :+:    :+:   */
+/*   cmd_rsautl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/13 15:44:18 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/13 15:41:41 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int parsing(int ac, char **av, t_utl *arg) {
 	return (1);
 }
 
-int cmd_rsa(int ac, char **av)
+int cmd_rsautl(int ac, char **av)
 {
 	int ret;
 	t_utl arg;

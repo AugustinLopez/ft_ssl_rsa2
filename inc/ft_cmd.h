@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 13:38:52 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/11 01:30:23 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/13 13:54:13 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,5 @@ int des3_cfb_fun(int ac, char **av, t_funinfo *info);
 int des3_ofb_fun(int ac, char **av, t_funinfo *info);
 
 int genrsa_fun(int ac, char **av, t_funinfo *info);
+int rsautl_fun(int ac, char **av, t_funinfo *info);
 #endif

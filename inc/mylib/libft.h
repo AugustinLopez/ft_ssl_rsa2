@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:56:19 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 18:29:45 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/13 16:12:15 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define ft_memcmp memcmp
 # define ft_strlen strlen
 # define ft_strcmp strcmp
+# define ft_strncmp strncmp
 # define ft_strncpy strncpy
 # define ft_strchr strchr
 # define ft_strncat strncat

@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:30:15 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/11 01:31:01 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/13 13:54:57 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 const t_fun COMMAND[MAX_CMD_NBR] =
 	{quit_fun, exit_fun, help_fun
-	, genrsa_fun
+	, genrsa_fun, rsautl_fun
 	, md5_fun, sha224_fun, sha256_fun
 	, sha512_224_fun, sha512_256_fun, sha384_fun, sha512_fun
 	, base64_fun, des_fun, des_ecb_fun, des_cbc_fun, des_cfb_fun, des_ofb_fun
