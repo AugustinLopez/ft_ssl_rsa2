@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/16 17:44:54 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/20 17:16:38 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ int cmd_rsa(int ac, char **av)
 	}
 	if (sfromfd(&(arg.sin), arg.fdin) == -1)
 		return (free_sslrsa(&arg, -1));
-	if (decode_64rsa(&arg.sin, arg.pubin, &rsa) == -1) {
+	if (decode_rsa(&arg, &rsa) == -1) {
 		if (arg.pubin == 0)
 			print_err(NULL, NULL, "unable to load Private Key", 0);
 		else
@@ -277,9 +277,9 @@ int cmd_rsa(int ac, char **av)
 		print_modulus(STDOUT_FILENO, rsa.member[MODULO], rsa.size[MODULO]);
 	if (arg.check == 1)
 		print_check(arg.fdout, &rsa);
-	if (arg.noout == 0) {
+/*	if (arg.noout == 0) {
 		write(STDOUT_FILENO, "writing RSA key\n", 16);
 		write(arg.fdout, sptr(arg.sin), slen(arg.sin));
-	}
+	}*/
 	return (free_sslrsa(&arg, 0));
 }

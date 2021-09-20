@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 11:47:29 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/20 13:50:35 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ static int parsing(int ac, char **av, t_utl *arg) {
 
 int cmd_rsautl(int ac, char **av)
 {
-	int ret;
+	return (0);
+/*	int ret;
 	t_utl arg;
 	t_rsa rsa;
 
@@ -120,5 +121,5 @@ int cmd_rsautl(int ac, char **av)
 		sdel(&(arg.sin));
 		return (-1);
 	}
-	return (0);
+	return (0);*/
 }

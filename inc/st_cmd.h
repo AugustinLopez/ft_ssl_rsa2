@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 10:41:48 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 11:16:51 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/20 16:44:02 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,12 @@ int deterministic_miller_rabbin(uint64_t n);
 int cmd_genrsa(int ac, char **av);
 int cmd_rsautl(int ac, char **av);
 int cmd_rsa(int ac, char **av);
-int decode_64rsa(t_string **key, int pubin, t_rsa *rsa);
+int rsa_decrypt(t_rsa *rsa, t_sslrsa *arg, size_t start, size_t end);
+int decode_rsa(t_sslrsa *arg, t_rsa *rsa);
+int decode_private_rsa(t_sslrsa *arg, t_rsa *rsa);
+int decode_private(t_sslrsa *arg, t_rsa *rsa);
+//int decode_encrypted(t_sslrsa *arg, t_rsa *rsa);
+int readsequence(char *str, size_t *index, size_t *len);
+int readnumber(char *str, size_t *index, uint8_t *num, int *numsize);
+int rsa_load_key(t_rsa *rsa, char *pass);
 #endif
