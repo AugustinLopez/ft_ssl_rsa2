@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:45:40 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/11 01:38:43 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/20 11:30:13 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 
 int	decode_base64(t_string **str, char *src, size_t len);
 int encode_base64(t_string **str, char *src, size_t len);
+int load_password(char *dest, int decrypt, char *algo);
+char *pbkdf(uint8_t *pwd, size_t len, uint8_t *salt, int key);
+int c16_to_hex64(uint8_t *hex, char *src);
 void des_ecb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
 void des3_ecb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
 void des_cbc(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);

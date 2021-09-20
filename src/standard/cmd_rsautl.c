@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/16 14:30:46 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/20 11:47:29 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,5 @@ int cmd_rsautl(int ac, char **av)
 		sdel(&(arg.sin));
 		return (-1);
 	}
-	printf("%d\n", rsa.size[0] * 8);
 	return (0);
 }

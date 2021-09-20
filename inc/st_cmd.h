@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 10:41:48 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/16 19:04:35 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/20 11:16:51 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ enum e_rsa_member{MODULO, PUBLIC, PRIVATE, PRIME1, PRIME2, EXP1, EXP2, COEF, RSA
 typedef struct	s_rsa {
 	uint8_t member[RSA_MEMBER_COUNT][512];
 	int size[RSA_MEMBER_COUNT];
+	uint8_t nkey[24];
 	uint8_t salt[8];
-	int key;
-	int is_public;
-
+	char *pass;
+	int key_count;
+	int decrypt;
 }				t_rsa;
 
 uint32_t find_prime32(uint32_t seed, int use_seed, int output);

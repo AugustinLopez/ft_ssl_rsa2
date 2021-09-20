@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 13:00:56 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 23:25:14 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/20 11:47:03 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static inline int	char_to_hex(char c)
 		return (-1);
 }
 
-static int		c16_to_hex64(uint8_t *hex, char *src)
+int		c16_to_hex64(uint8_t *hex, char *src)
 {
 	uint8_t	tmp[16];
 	int		right;
@@ -320,4 +320,3 @@ int		des_input_todecrypt(t_cypher *arg, t_string **input)
 		return (-1);
 	return (n);
 }
-
