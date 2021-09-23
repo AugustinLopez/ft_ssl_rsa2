@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 16:45:40 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 11:30:13 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/23 16:14:48 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void des_ofb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decry
 void des3_ofb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
 void des_cfb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
 void des3_cfb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decrypt);
+int pkcs7_padding(t_string **topad);
 #endif

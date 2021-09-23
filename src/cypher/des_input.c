@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 13:00:56 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 11:47:03 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/23 16:12:44 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ static int	epassword_provided(t_cypher *arg)
 	return (n);
 }
 
-static int	pkcs7_padding(t_string **topad)
+int	pkcs7_padding(t_string **topad)
 {
 	char	val;
 
