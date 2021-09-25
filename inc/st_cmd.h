@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 10:41:48 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 16:44:02 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/25 17:27:32 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct	s_rsa {
 	int size[RSA_MEMBER_COUNT];
 	uint8_t nkey[24];
 	uint8_t salt[8];
-	char *pass;
 	int key_count;
 	int decrypt;
 }				t_rsa;
@@ -84,4 +83,5 @@ int decode_private(t_sslrsa *arg, t_rsa *rsa);
 int readsequence(char *str, size_t *index, size_t *len);
 int readnumber(char *str, size_t *index, uint8_t *num, int *numsize);
 int rsa_load_key(t_rsa *rsa, char *pass);
+int rsa_load_pass(char *pass, char *buff, char *memory);
 #endif
