@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 10:41:48 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/25 17:27:32 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/26 16:09:03 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@
 # define RSAUTL_HELP_MSG \
 	"usage: rsautl [-in file] [-out file] [-inkey file] [-pubin] [-encrypt]" \
 	" [-decrypt] [-hexdump]\n\n"
+
+# define RSA_HELP_MSG \
+	"usage: rsa [-h] [-in key] [-out file] [-pubin] [-pubout] [-des] [-des3]" \
+	"[-passin arg] [-passout arg] [-modulus] [-text] [-noout] [-check]\n\n"
+	"-h           \tPrint this help\n" \
+	"-in key      \tRSA key to analyze (default: Private)\n"
+	"-out file    \tOutput file for the key (default: same as input key)\n"
+	"-pubin       \tInput is a public key\n"
+	"-pubout      \tOutput is a public key\n"
+	"-des/des3    \tEncode the input with DES-CBC/DES-EDE3-CBC\n"
+	"-passin arg  \tPassword argument for DES to decode the input\n"
+	"-passout arg \tPassword argument for DES to encode the output\n"
+	"-modulus     \tPrint the RSA modulus\n"
+	"-text        \tPrint the RSA data\n"
+	"-noout       \tDo not write the output on the STDOUT file descriptor\n"
+	"-check       \tCheck the consistency of the RSA data\n"
+	
 
 typedef struct	s_utl {
 	t_string *sin;

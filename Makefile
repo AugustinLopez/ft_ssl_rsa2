@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/09/20 16:44:15 by aulopez          ###   ########.fr        #
+#    Updated: 2021/09/26 15:54:04 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME=ft_ssl
 COMPILER=gcc
 FLAGS=-g3 -fsanitize=address -Wall -Wextra -MMD -MP
 
-VPATH=	src/cmd:src/mylib:src/digest:src/cypher:src/cypher/base64:src/standard
+VPATH=	src/cmd:src/mylib:src/digest:src/cypher:src/cypher/base64:src/standard\
+		:src/standard/genrsa
 PATH_OBJ=.object/
 PATH_HDR=./inc/
 
