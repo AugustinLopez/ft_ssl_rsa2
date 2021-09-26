@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/25 17:21:29 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/26 15:33:44 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,7 +413,7 @@ int encode_rsa(t_sslrsa *arg, t_rsa *rsa)
 	if (arg->des != 0) {
 		rsa->decrypt = 0;
 		rsa->key_count = arg->des;
-		if (rsa_load_key(rsa, arg->argin) == -1)
+		if (rsa_load_key(rsa, arg->argout) == -1)
 			return (-1);
 	}
 	ret = 0;
