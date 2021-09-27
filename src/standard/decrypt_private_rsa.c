@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 17:01:49 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/27 12:29:36 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int decode_private_rsa(t_sslrsa *arg, t_rsa *rsa)
 		if (ft_strncmp(sptr(arg->sin) + i + 16, "\n\n", 2) != 0)
 			return (-1);
 		i += 18;
-		if (rsa_load_key(rsa, arg->argin) != 0)
+		if (rsa_load_key(rsa, arg->argin, NULL) != 0)
 			return (-1);
 	}
 	else

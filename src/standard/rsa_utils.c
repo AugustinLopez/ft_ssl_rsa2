@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/25 17:41:46 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/27 12:58:27 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <errno.h>
-
-static int fdinput(char *in) {
-	int fdin;
-
-	if (in == NULL)
-		fdin = STDIN_FILENO;
-	else {
-		fdin = open(in, O_RDONLY);
-		if (fdin < 0) {
-			print_err("rsa", in, 0, errno);
-			return (-1);
-		}
-	}
-	return (fdin);
-}
 
 int readsequence(char *str, size_t *index, size_t *len)
 {
@@ -122,7 +107,7 @@ int rsa_load_pass(char *pass, char *buff, char *memory)
 		return (0);
 	}
 	else if (ft_strncmp(pass, "file:", 5) == 0) {
-		fd = fdinput(pass + 5);
+		fd = fdinput(pass + 5, "rsa");
 		if (fd == -1)
 			return (-1);
 		len = read(fd, buff, _SC_PASS_MAX);
@@ -131,9 +116,10 @@ int rsa_load_pass(char *pass, char *buff, char *memory)
 			return (-1);
 		}
 		ptr = ft_strchr(buff, '\n');
-		if (memory == pass) {
-			while (len > 0 || ptr == NULL) {
+		if (memory != NULL && ft_strcmp(memory, pass) == 0) {
+			while (len > 0 && ptr == NULL) {
 				len = read(fd, buff, _SC_PASS_MAX);
+				dprintf(STDERR_FILENO, "> |%s|\n", buff);
 				ptr = ft_strchr(buff, '\n');
 			}
 			if (ptr == NULL || len == -1) {
@@ -142,7 +128,7 @@ int rsa_load_pass(char *pass, char *buff, char *memory)
 			}
 			len = _SC_PASS_MAX - (ssize_t)(ptr - buff) + 1;
 			if (len)
-				ft_memmove(buff, ptr, len);
+				ft_memmove(buff, ptr + 1, len);
 			else
 				buff[0] = 0;
 			len = read(fd, buff + len, _SC_PASS_MAX - len);
@@ -154,20 +140,21 @@ int rsa_load_pass(char *pass, char *buff, char *memory)
 		ptr = ft_strchr(buff, '\n');
 		if (ptr)
 			ptr[0] = '\0';
+		dprintf(STDERR_FILENO, "|%s|\n", buff);
 		close(fd);
 		return (0);
 	}
 	return (-1);
 }
 
-int rsa_load_key(t_rsa *rsa, char *pass)
+int rsa_load_key(t_rsa *rsa, char *pass, char *memory)
 {
 	char	pwd[_SC_PASS_MAX + 8 + 16 + 1]; //+ salt + some place for 3key
 	char	*digest;
 
 	ft_memset(pwd, 0, _SC_PASS_MAX + 1);
 	if (pass != NULL && ft_strcmp(pass, "stdin") != 0) {
-		if (rsa_load_pass(pass, pwd, NULL) == -1)
+		if (rsa_load_pass(pass, pwd, memory) == -1)
 			return (-1);
 	}
 	else if (load_password(pwd, rsa->decrypt, "PEM") == -1) {
@@ -177,6 +164,7 @@ int rsa_load_key(t_rsa *rsa, char *pass)
 	if (rsa->decrypt == 0) {
 		for (int i = 0; i < 8; i ++)
 			rsa->salt[i] = (uint8_t)ft_rand();
+		ft_memcpy(rsa->salt, "\x5d\x0b\x26\xe6\xcb\x21\xd8\x4b", 8);
 	}
 	digest = pbkdf((uint8_t *)pwd, ft_strlen(pwd), rsa->salt, rsa->key_count);
 	if (digest == NULL)

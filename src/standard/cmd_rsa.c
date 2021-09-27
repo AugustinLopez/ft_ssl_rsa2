@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/26 16:08:29 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/27 12:41:15 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,42 +20,10 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-static int fdoutput(char *out) {
-	int fdout;
-
-	if (out == NULL)
-		fdout = STDOUT_FILENO;
-	else {
-		fdout = open(out, O_WRONLY | O_CREAT | O_TRUNC,
-		S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		if (fdout < 0) {
-			print_err("rsa", out, 0, errno);
-			return (-1);
-		}
-	}
-	return (fdout);
-}
-
-static int fdinput(char *in) {
-	int fdin;
-	
-	if (in == NULL)
-		fdin = STDIN_FILENO;
-	else {
-		fdin = open(in, O_RDONLY);
-		if (fdin < 0) {
-			print_err("rsa", in, 0, errno);
-			return (-1);
-		}
-	}
-	return (fdin);
-}
-
 static int free_sslrsa(t_sslrsa *arg, int ret)
 {
-	int errmem;
+	int errmem = errno;
 
-	errmem = errno;
 	sfree(arg->sin);
 	sfree(arg->sout);
 	if (arg->fdin != STDIN_FILENO)
@@ -67,12 +35,9 @@ static int free_sslrsa(t_sslrsa *arg, int ret)
 }
 
 static int parsing(int ac, char **av, t_sslrsa *arg) {
-	int errmem;
-	char *fin;
-	char *fout;
+	char *fin = NULL;
+	char *fout = NULL;
 
-	fin = NULL;
-	fout = NULL;
 	for (int i = 1; i < ac; i++) {
 		if (ft_strcmp(av[i], "-h") == 0) {
 			write(STDOUT_FILENO, RSA_HELP_MSG, ft_strlen(RSA_HELP_MSG));
@@ -110,144 +75,16 @@ static int parsing(int ac, char **av, t_sslrsa *arg) {
 			return (-1);
 		}
 	}
-	arg->fdin = fdinput(fin);
-	arg->fdout = fdoutput(fout);
-	if (arg->fdin == -1 || arg->fdout == -1)
+	arg->fdin = fdinput(fin, "rsa");
+	if (arg->fdin == -1)
+		return (free_sslrsa(arg, -1));
+	arg->fdout = fdoutput(fout, "rsa");
+	if (arg->fdout == -1)
 		return (free_sslrsa(arg, -1));
 	return (1);
 }
 
-static void print_number(int fd, uint8_t *number, size_t len)
-{
-	uint64_t temp;
-	size_t i;
-	size_t tmp;
-	char j;
-
-	if (len <= 8) {
-		temp = 0;
-		for (i = 0; i < len; i++)
-			temp = (temp << 8) + number[i];
-		ft_numwrite(fd, temp);
-		write(fd, " (0x", 4);
-		for (i = 0; i < len; i++) {
-			j = number[i] / 16;
-			j = j < 10 ? j + '0': j - 10 + 'a';
-			if (!(i == 0 && j == '0'))
-				write(fd, &j, 1);
-			j = number[i] % 16;
-			j = j < 10 ? j + '0': j - 10 + 'a';
-			write(fd, &j, 1);
-		}
-		write(fd, ")\n", 2);
-	}
-	else {
-		tmp = 0;
-		for (i = 0; i < len; i++) {
-			if ((i + tmp) % 15 == 0)
-				write(fd, "\n    ", 5);
-			j = number[i] / 16;
-			if (i == 0 && j > 8) {
-				write(fd, "00:", 3);
-				tmp = 1;
-			}
-			j = j < 10 ? j + '0': j - 10 + 'a';
-			write(fd, &j, 1);
-			j = number[i] % 16;
-			j = j < 10 ? j + '0': j - 10 + 'a';
-			write(fd, &j, 1);
-			if (i < len - 1)
-				write(fd, ":", 1);
-		}
-		write(fd, "\n", 1);
-	}
-}
-
-void print_text(int fd, t_rsa *rsa, int pubin)
-{
-	if (pubin == 1) {
-		write(fd, "Public-Key : (", 14);
-		ft_numwrite(fd, (uint64_t)(rsa->size[MODULO] * 8));
-		write(fd, " bit)\n", 6);
-		write(fd, "Modulus: ", 9);
-		print_number(fd, rsa->member[MODULO], rsa->size[MODULO]);
-		write(fd, "Exponent: ", 10);
-		print_number(fd, rsa->member[PUBLIC], rsa->size[PUBLIC]);
-		return;
-	}
-	else {
-		write(fd, "Private-Key : (", 15);
-		ft_numwrite(fd, (uint64_t)(rsa->size[MODULO] * 8));
-		write(fd, " bit)\n", 6);
-		write(fd, "modulus: ", 9);
-		print_number(fd, rsa->member[MODULO], rsa->size[MODULO]);
-		write(fd, "publicExponent: ", 16);
-		print_number(fd, rsa->member[PUBLIC], rsa->size[PUBLIC]);
-		write(fd, "privateExponent: ", 17);
-		print_number(fd, rsa->member[PRIVATE], rsa->size[PRIVATE]);
-		write(fd, "prime1: ", 8);
-		print_number(fd, rsa->member[PRIME1], rsa->size[PRIME1]);
-		write(fd, "prime2: ", 8);
-		print_number(fd, rsa->member[PRIME2], rsa->size[PRIME2]);
-		write(fd, "exponent1: ", 11);
-		print_number(fd, rsa->member[EXP1], rsa->size[EXP1]);
-		write(fd, "exponent2: ", 11);
-		print_number(fd, rsa->member[EXP2], rsa->size[EXP2]);
-		write(fd, "coefficient: ", 13);
-		print_number(fd, rsa->member[COEF], rsa->size[COEF]);
-	}
-}
-
-void print_modulus(int fd, uint8_t *number, int size)
-{
-	char j;
-	int i;
-
-	write(fd, "Modulus=",8);
-	for (i = 0; i < size; i++) {
-		j = number[i] / 16;
-		j = j < 10 ? j + '0': j - 10 + 'A';
-		write(fd, &j, 1);
-		j = number[i] % 16;
-		j = j < 10 ? j + '0': j - 10 + 'A';
-		write(fd, &j, 1);
-	}
-	write(fd, "\n", 1);
-}
-
-void print_check(int fd, t_rsa *rsa)
-{
-	uint64_t pq;
-	uint64_t p;
-	uint64_t q;
-	int i;
-
-	if (rsa->size[MODULO] > 8) {
-		print_err(NULL, NULL, "Check not available for key size above 64 bit", 0);
-		return ;
-	}
-	if (rsa->size[PRIME1] > 8 || rsa->size[PRIME2] > 8) {
-		print_err(NULL, NULL, "Prime sizes inconsistent with key size", 0);
-		return ;
-	}
-	p = 0;
-	q = 0;
-	pq = 0;
-	for (i = 0; i < rsa->size[PRIME1]; i++)
-		p = (p << 8) + rsa->member[PRIME1][i];
-	for (i = 0; i < rsa->size[PRIME2]; i++)
-		q = (q << 8) + rsa->member[PRIME2][i];
-	for (i = 0; i < rsa->size[MODULO]; i++)
-		pq = (pq << 8) + rsa->member[MODULO][i];
-	if (p > 0xffffffffffffffff / q)
-		print_err(NULL, NULL, "Prime sizes inconsistent with key size", 0);
-	if (p * q == pq)
-		write(fd, "RSA key ok\n", 11);
-	else
-		write(fd, "RSA key KO: n does not equal p q\n", 33);
-}
-
-
+/*
 int add_number(t_string *str, uint8_t *rsa, int size)
 {
 	char buff[8];
@@ -306,6 +143,35 @@ int add_sequence(t_string *str)
 	}
 	return (0);
 }
+
+int adding_sequence(t_string *str)
+{
+	char buff[8];
+	int i;
+	int j;
+	uint32_t size;
+
+	salead(str, "\x02\x01\x00", 3);
+	size = slen(str);
+	ft_memset(buff, 0, sizeof(buff));
+	buff[0] = 0x30;
+	if (size < 128) {
+		buff[1] = (uint8_t)size;
+		salead(str, buff, 2);
+	}
+	else {
+		i = 4;
+		while ((size >> ((i - 1) * 8)) == 0)
+			i--;
+		buff[1] = 0x80 + i;
+		for (j = 0; j < i; j++)
+			buff[2 + j] = (size >> ((i - j - 1) * 8)) & 0xff;
+		salead(str, (const char *)buff, 2 + i);
+	}
+	return (0);
+}
+
+
 
 int add_pub_sequence(t_string *str)
 {
@@ -366,33 +232,6 @@ int add_pub_sequence(t_string *str)
 	return (0);
 }
 
-
-int adding_sequence(t_string *str)
-{
-	char buff[8];
-	int i;
-	int j;
-	uint32_t size;
-
-	salead(str, "\x02\x01\x00", 3);
-	size = slen(str);
-	ft_memset(buff, 0, sizeof(buff));
-	buff[0] = 0x30;
-	if (size < 128) {
-		buff[1] = (uint8_t)size;
-		salead(str, buff, 2);
-	}
-	else {
-		i = 4;
-		while ((size >> ((i - 1) * 8)) == 0)
-			i--;
-		buff[1] = 0x80 + i;
-		for (j = 0; j < i; j++)
-			buff[2 + j] = (size >> ((i - j - 1) * 8)) & 0xff;
-		salead(str, (const char *)buff, 2 + i);
-	}
-	return (0);
-}
 
 
 int encode_rsa(t_sslrsa *arg, t_rsa *rsa)
@@ -477,7 +316,7 @@ int encode_rsa(t_sslrsa *arg, t_rsa *rsa)
 
 	}
 }
-
+*/
 int cmd_rsa(int ac, char **av)
 {
 	int i;
@@ -508,7 +347,7 @@ int cmd_rsa(int ac, char **av)
 	if (arg.check == 1)
 		print_check(arg.fdout, &rsa);
 	if (arg.noout == 0)
-		write(STDOUT_FILENO, "writing RSA key\n", 16);
+		write(STDERR_FILENO, "writing RSA key\n", 16);
 	if (arg.noout == 0 || arg.fdout != STDOUT_FILENO)
 		encode_rsa(&arg, &rsa);
 	return (free_sslrsa(&arg, 0));

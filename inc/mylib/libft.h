@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 20:56:19 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/16 16:19:58 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/27 09:54:26 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@
 # define ft_strncat strncat
 # endif
 
+int fdinput(char *in, char *progname);
+int fdoutput(char *out, char *progname);
 void print_err(char *progname, char *argument, char *description, int err);
 char **ft_strsplit(char const *s, char c);
 void ft_freesplit(char **split);
-void ft_numwrite(int fd, uint64_t num);
 uint64_t ft_rand();
 #endif

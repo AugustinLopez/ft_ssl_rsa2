@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/13 13:51:26 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/27 09:42:59 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,6 @@ static int parsing(int ac, char **av, char **in, char **out) {
 	return (1);
 }
 
-static int fdoutput(char *out) {
-	int fdout;
-
-	if (out == NULL)
-		fdout = STDOUT_FILENO;
-	else {
-		fdout = open(out, O_WRONLY | O_CREAT | O_TRUNC,
-		S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		if (fdout < 0) {
-			print_err("genrsa", out, 0, errno);
-			return (-1);
-		}
-	}
-	return (fdout);
-}
-
 static int nbr_in(char *in, uint64_t *a, uint64_t *b) {
 	int fdin;
 
@@ -66,8 +50,10 @@ static int nbr_in(char *in, uint64_t *a, uint64_t *b) {
 		*b = find_prime32(0, 0, 1);
 	}
 	else {
-		fdin = open(in, O_RDONLY);
-		if (fdin < 0 || read(fdin, a, 8) < 0) {
+		fdin = fdinput(in, "genrsa");
+		if (fdin < 0)
+			return (-1);
+		if (read(fdin, a, 8) < 0) {
 			print_err("genrsa", in, 0, errno);
 			if (in >= 0 && close(fdin) < 0)
 				print_err("Warning", in, 0, errno);
@@ -109,7 +95,7 @@ int cmd_genrsa(int ac, char **av)
 	ret = parsing(ac, av, &fin, &fout);
 	if (ret != 1)
 		return (ret);
-	fdout = fdoutput(fout);
+	fdout = fdoutput(fout, "genrsa");
 	if (fdout == -1)
 		return (-1);
 	write(STDERR_FILENO, "Generating RSA private key, 64 bit long modulus\n", 48);

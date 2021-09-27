@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 13:50:35 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/27 09:43:16 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-static int fdoutput(char *out) {
-	int fdout;
-
-	if (out == NULL)
-		fdout = STDOUT_FILENO;
-	else {
-		fdout = open(out, O_WRONLY | O_CREAT | O_TRUNC,
-		S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		if (fdout < 0) {
-			print_err("rsautl", out, 0, errno);
-			return (-1);
-		}
-	}
-	return (fdout);
-}
-
-static int fdinput(char *in) {
-	int fdin;
-	
-	if (in == NULL)
-		fdin = STDIN_FILENO;
-	else {
-		fdin = open(in, O_RDONLY);
-		if (fdin < 0) {
-			print_err("rsautl", in, 0, errno);
-			return (-1);
-		}
-	}
-	return (fdin);
-}
 
 static int parsing(int ac, char **av, t_utl *arg) {
 	for (int i = 1; i < ac; i++) {

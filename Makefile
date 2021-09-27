@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/09/26 15:54:04 by aulopez          ###   ########.fr        #
+#    Updated: 2021/09/27 11:54:49 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ CC_O=$(COMPILER) $(FLAGS) -c -I$(PATH_HDR)
 CC_C=$(COMPILER) $(FLAGS) $(OBJ)
 
 CMD=main type_none type_digest type_cypher type_standard
-MYLIB=ft_string ft_print ft_strsplit ft_funinfo ft_rand ft_numwrite
+MYLIB=ft_string ft_print ft_strsplit ft_funinfo ft_rand ft_fd
 DIGEST=digest di_utils md5 sha256 sha512
 CYPHER=cypher cypher64 decode_b64 encode_b64 des_input des_output \
 	des_algorithm des_ecb des3_ecb des_cbc des3_cbc des_cfb des3_cfb \
 	des3_ofb des_ofb
-STANDARD=prime32 genrsa cmd_genrsa cmd_rsautl cmd_rsa readrsa rsa_utils \
-		 decrypt_private_rsa decrypt_private
+STANDARD=prime32 genrsa cmd_genrsa cmd_rsautl cmd_rsa readrsa printrsa rsa_utils \
+		 decrypt_private_rsa decrypt_private rsa_print_info
 SRC=$(CMD) $(MYLIB) $(DIGEST) $(CYPHER) $(STANDARD)
 OBJ=$(SRC:%=$(PATH_OBJ)%.o)
 DEP=$(OBJ:%.o=%.d)
