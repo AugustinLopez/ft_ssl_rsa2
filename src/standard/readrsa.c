@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 10:54:07 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 16:55:41 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,33 @@ static int readrsa_puball(char *str, size_t len, t_rsa *rsa)
 
 int decode_public(t_sslrsa *arg, t_rsa *rsa)
 {
-	t_string *replacement;
+	t_string *temp;
 	int ret;
 
 	if (ft_strncmp(sptr(arg->skey), "-----END PUBLIC KEY-----\n", 25) == 0)
 		return (-1);
-	if (decode_base64(&replacement, sptr(arg->skey) + 27, slen(arg->skey) - 52) == -1)
+	if (decode_base64(&temp, sptr(arg->skey) + 27, slen(arg->skey) - 52) == -1)
 		return (-1);
 	ret = 0;
-	if (readrsa_puball(sptr(replacement), slen(replacement), rsa) == -1)
+	if (readrsa_puball(sptr(temp), slen(temp), rsa) == -1)
 		ret = -1;
-	sfree(replacement);
+	sfree(temp);
 	return (ret);
 }
 
 int decode_public_rsa(t_sslrsa *arg, t_rsa *rsa)
 {
-	t_string *replacement;
+	t_string *temp;
 	int ret;
 
 	if (ft_strncmp(sptr(arg->skey), "-----END RSA PUBLIC KEY-----\n", 29) == 0)
 		return (-1);
-	if (decode_base64(&replacement, sptr(arg->skey) + 31, slen(arg->skey) - 60) == -1)
+	if (decode_base64(&temp, sptr(arg->skey) + 31, slen(arg->skey) - 60) == -1)
 		return (-1);
 	ret = 0;
-	if (readrsa_pub(sptr(replacement), slen(replacement), rsa) == -1)
+	if (readrsa_pub(sptr(temp), slen(temp), rsa) == -1)
 		ret = -1;
-	sfree(replacement);
+	sfree(temp);
 	return (ret);
 }
 

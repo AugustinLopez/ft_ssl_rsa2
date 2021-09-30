@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/27 15:47:42 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 16:55:23 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,17 @@ int readsequence(char *str, size_t *index, size_t *len)
 	*len = (uint8_t)str[(*index)++];
 	if (*len >= 0x80) {
 		j = *len - 0x80;
-		if (j > 2) //enough for 65536 bytes > more than enough for 4096 bits key
+		if (j > 2) { //enough for 65536 bytes > more than enough for 4096 bits key
+			print_err(NULL, NULL, "size is too big", 0);
 			return (-1);
+		}
 		*len = 0;
 		while (j-- > 0)
 			*len = (*len << 8) + (uint8_t)str[(*index)++];
+	}
+	else if (*len == 0) {
+		print_err(NULL, NULL, "unexpected zero size", 0);
+		return (-1);
 	}
 	return (0);
 }
@@ -47,14 +53,18 @@ int readnumber(char *str, size_t *index, uint8_t *num, int *numsize)
 	imax = (uint8_t)str[(*index)++];
 	if (imax >= 0x80) {
 		j = imax - 0x80;
-		if (j > 2) //enough for 65536 bytes, more than enough for 4096 bits key.
+		if (j > 2) { //enough for 65536 bytes, more than enough for 4096 bits key.
+			print_err(NULL, NULL, "size is too big", 0);
 			return (-1);
+		}
 		imax = 0;
 		while (j-- > 0)
 			imax = (imax << 8) + (uint8_t)str[(*index)++];
 	}
-	else if (imax == 0)
+	else if (imax == 0) {
+		print_err(NULL, NULL, "unexpected zero size", 0);
 		return (-1);
+	}
 	while (imax-- > 0) {
 		if (*numsize == 0 && str[*index] == 0)
 			++*index;
@@ -160,11 +170,9 @@ int rsa_load_key(t_rsa *rsa, char *pass, char *memory)
 		write(STDERR_FILENO, "bad password read\n", 18);
 		return (-1);
 	}
-	if (rsa->decrypt == 0) {
+	if (rsa->decrypt == 0)
 		for (int i = 0; i < 8; i ++)
 			rsa->salt[i] = (uint8_t)ft_rand();
-	//	ft_memcpy(rsa->salt, "\x5d\x0b\x26\xe6\xcb\x21\xd8\x4b", 8);
-	}
 	digest = pbkdf((uint8_t *)pwd, ft_strlen(pwd), rsa->salt, rsa->key_count);
 	if (digest == NULL)
 		return (-1);
@@ -178,5 +186,3 @@ int rsa_load_key(t_rsa *rsa, char *pass, char *memory)
 	free(digest);
 	return (0);
 }
-
-

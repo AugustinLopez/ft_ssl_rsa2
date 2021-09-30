@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 12:40:25 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 16:43:16 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,23 @@ static int parsing(int ac, char **av, t_sslrsa *arg) {
 			arg->decrypt = 1;
 		else if (ft_strcmp(av[i], "-hexdump") == 0)
 			arg->hexdump = 1;
-		else {
+		else if (ft_strcmp(av[i], "-raw") != 0) {
 			print_err("rsautl", av[i], "invalid option", 0);
 			return (-1);
 		}
 	}
 	if (fkey == NULL) {
-		print_err(0, 0, "no keyfile specified", 0);
+		print_err(NULL, NULL, "no keyfile specified", 0);
+		return (-1);
+	}
+	if (arg->pubin == 1 && arg->decrypt == 1) {
+		print_err(NULL, NULL, "cannot use decrypt option with public key.", 0);
 		return (-1);
 	}
 	arg->fdin = fdinput(fin, "rsautl");
-	if (arg->fdin == -1)
-		return (free_rsautl(arg, -1));
 	arg->fdout = fdoutput(fout, "rsautl");
-	if (arg->fdout == -1)
-		return (free_rsautl(arg, -1));
 	arg->fdkey = fdinput(fkey, "rsautl");
-	if (arg->fdkey == -1)
+	if (arg->fdin == -1 || arg->fdout == -1 || arg->fdkey == -1)
 		return (free_rsautl(arg, -1));
 	return (1);
 }
@@ -101,54 +101,55 @@ uint64_t rsautl_64raw(int decrypt, t_rsa *rsa, uint8_t *input)
 	return (res);
 }
 
-void rsautl_64raw_dump(int fd, uint8_t *msg, int size, int hexdump)
+void rsautl_64raw_dump(int fd, uint64_t result, int size, int hexdump)
 {
-	uint8_t buff[3];
+	uint8_t buff[8];
+	uint8_t tmp;
 	int i;
 
-	if (hexdump == 1) {
-		write(fd, "0000 - ", 7);
-		i = 0;
-		for (i = 0; i < size; i++) {
-			buff[0] = msg[i] / 16;
-			buff[1] = msg[i] % 16;
-			buff[0] += buff[0] < 10 ? '0' : 'a' - 10;
-			buff[1] += buff[1] < 10 ? '0' : 'a' - 10;
-			buff[2] = (i == 7) ? '-' : ' ';
-			write(fd, buff, 3);
-		}
-		for (i = size; i < 16; i++)
-			write(fd, "   ", 3);
-		write(fd, "  ", 2);
-		for (i = 0; i < size; i++) {
-			if (msg[i] >= 0x20 && msg[i] <= 0x7e)
-				write(fd, &msg[i], 1);
-			else
-				write(fd, ".", 1);
-		}
-		write(fd, "\n", 1);
+	if (hexdump == 0) {
+		ft_memset(buff, 0, sizeof(buff));
+		for (i = 0; i < size; i++)
+			buff[i] = (result >> ((size - 1 - i) * 8)) & 0xff;
+		write(fd, buff, size);
 		return ;
 	}
-	write(fd, msg, size);
+	write(fd, "0000 - ", 7);
+	i = 0;
+	for (i = 0; i < size; i++) {
+		tmp = (result >> ((size - 1 - i) * 8)) & 0xff;
+		buff[0] = tmp / 16;
+		buff[1] = tmp % 16;
+		buff[0] += buff[0] < 10 ? '0' : 'a' - 10;
+		buff[1] += buff[1] < 10 ? '0' : 'a' - 10;
+		buff[2] = (i == 7) ? '-' : ' ';
+		write(fd, buff, 3);
+	}
+	for (i = size; i < 16; i++)
+		write(fd, "   ", 3);
+	write(fd, "  ", 2);
+	for (i = 0; i < size; i++) {
+		tmp = (result >> ((size - 1 - i) * 8)) & 0xff;
+		if (tmp >= 0x20 && tmp <= 0x7e)
+			write(fd, &tmp, 1);
+		else
+			write(fd, ".", 1);
+	}
+	write(fd, "\n", 1);
 }
 
 int cmd_rsautl(int ac, char **av)
 {
-	int i;
+	uint64_t result;
 	t_sslrsa arg;
 	t_rsa rsa;
-	uint64_t result;
-	char buff[8];
+	int i;
 
 	ft_memset(&arg, 0, sizeof(arg));
 	ft_memset(&rsa, 0, sizeof(rsa));
 	i = parsing(ac, av, &arg);
 	if (i != 1)
 		return (i);
-	if (arg.pubin == 1 && arg.decrypt == 1) {
-		print_err(NULL, NULL, "cannot use decrypt option with public key.", 0);
-		return (-1);
-	}
 	if (sfromfd(&(arg.skey), arg.fdkey) == -1)
 		return (free_rsautl(&arg, -1));
 	if (decode_rsa(&arg, &rsa) == -1) {
@@ -162,18 +163,14 @@ int cmd_rsautl(int ac, char **av)
 		print_err(NULL, NULL, "program available for up to 64 bit key", 0);
 		return (free_rsautl(&arg, -1));
 	}
-	if (sfromfd(&(arg.sin), arg.fdin) == -1) {
-		print_err(NULL, NULL, "unable to load text", 0);
+	if (sfromfd(&(arg.sin), arg.fdin) == -1)
 		return (free_rsautl(&arg, -1));
-	}
 	if (slen(arg.sin) != (size_t)rsa.size[MODULO]) {
 		print_err(NULL, NULL, "in raw mode, input must have the same size as the key", 0);
 		return (free_rsautl(&arg, -1));
 	}
 	result = rsautl_64raw(arg.decrypt, &rsa, (uint8_t *)sptr(arg.sin));
-	ft_memset(buff, 0, sizeof(buff));
-	for (i = 0; i < rsa.size[MODULO]; i++)
-		buff[i] = (result >> ((rsa.size[MODULO] - 1 - i) * 8));
-	rsautl_64raw_dump(arg.fdout, buff, rsa.size[MODULO], arg.hexdump);
-	return (free_rsautl(&arg, 0));
+	rsautl_64raw_dump(arg.fdout, result, rsa.size[MODULO], arg.hexdump);
+	free_rsautl(&arg, 0);
+	return (0);
 }

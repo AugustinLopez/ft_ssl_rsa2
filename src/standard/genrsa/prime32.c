@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 10:27:41 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 11:34:13 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 15:57:43 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static uint64_t mult_mod(uint64_t a, uint64_t b, uint64_t m) {
 	}
 
 	while (a != 0) {
-		if (a & 1) {
+		if (a % 2 == 1) {
 			if (b >= m - res)
 				res -= m;
 			res += b;
@@ -40,7 +40,7 @@ static uint64_t mult_mod(uint64_t a, uint64_t b, uint64_t m) {
 		temp_b = b;
 		if (b >= m - b)
 			temp_b -= m;
-		b+= temp_b;
+		b += temp_b;
 	}
 	return res;
 }
@@ -54,7 +54,7 @@ uint64_t power_mod(uint64_t a, uint64_t n, uint64_t mod)
 	power = a;
 	ret = 1;
 	while (n) {
-		if (n & 1)
+		if (n % 2 == 1)
 			ret = mult_mod(ret, power, mod);
 		power = mult_mod(power, power, mod);
 		n >>= 1;
@@ -77,7 +77,6 @@ static int witness(uint64_t n, uint64_t s, uint64_t d, uint64_t a)
 		x = y;
 		--s;
 	}
-	//equivalent to x != 1
 	if (y != 1)
 		return (0);
 	return (1);
@@ -96,10 +95,10 @@ int deterministic_miller_rabbin(uint64_t n)
 	if (n % 2 == 0 || n % 3 == 0)
 		return (0);
 
-	//n = ((2 ^ s) * d) + 1
+	//n can be decomposed as: n = ((2 ^ s) * d) + 1
 	d = n / 2;
 	s = 1;
-	while (!(d & 1)) {
+	while (d % 2 == 0) {
 		d /= 2;
 		++s;
 	}

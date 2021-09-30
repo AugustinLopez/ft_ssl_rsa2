@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 10:55:11 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 16:47:33 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static int parsing(int ac, char **av, t_sslrsa *arg) {
 	char *fin = NULL;
 	char *fout = NULL;
 
+	arg->fdkey = STDIN_FILENO;
+	arg->fdout = STDOUT_FILENO;
 	for (int i = 1; i < ac; i++) {
 		if (ft_strcmp(av[i], "-h") == 0) {
 			write(STDERR_FILENO, RSA_HELP_MSG, ft_strlen(RSA_HELP_MSG));
@@ -75,11 +77,13 @@ static int parsing(int ac, char **av, t_sslrsa *arg) {
 			return (-1);
 		}
 	}
+	if (arg->pubin == 1 && arg->check == 1) {
+		print_err(NULL, NULL, "Only private keys can be checked\n", 0);
+		return (-1);
+	}
 	arg->fdkey = fdinput(fin, "rsa");
-	if (arg->fdkey == -1)
-		return (free_sslrsa(arg, -1));
 	arg->fdout = fdoutput(fout, "rsa");
-	if (arg->fdout == -1)
+	if (arg->fdkey == -1 || arg->fdout == -1)
 		return (free_sslrsa(arg, -1));
 	return (1);
 }
@@ -95,10 +99,6 @@ int cmd_rsa(int ac, char **av)
 	i = parsing(ac, av, &arg);
 	if (i != 1)
 		return (i);
-	if (arg.pubin == 1 && arg.check == 1) {
-		print_err(NULL, NULL, "Only private keys can be checked\n", 0);
-		return (free_sslrsa(&arg, -1));
-	}
 	if (sfromfd(&(arg.skey), arg.fdkey) == -1)
 		return (free_sslrsa(&arg, -1));
 	if (decode_rsa(&arg, &rsa) == -1) {
@@ -118,5 +118,6 @@ int cmd_rsa(int ac, char **av)
 		write(STDERR_FILENO, "writing RSA key\n", 16);
 	if (arg.noout == 0 || arg.fdout != STDOUT_FILENO)
 		encode_rsa(&arg, &rsa);
-	return (free_sslrsa(&arg, 0));
+	free_sslrsa(&arg, 0);
+	return (0);
 }

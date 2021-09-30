@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 01:28:03 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/13 16:38:55 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 16:04:55 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,13 @@ int addnumber(t_string *str, uint64_t n)
 
 	if (satrail(str, "\x02", 1) == -1)
 		return (-1);
-	len = 0;
+	len = (n == 0);
 	for (int i = 0; i < 64; i += 8) {
 		if ((n >> i) != 0)
 			len++;
 		else
 			break ;
 	}
-	if (len == 0)
-		len = 1;
 	content = (n >> ((len - 1) * 8)) & 0xff;
 	if ((content & 0x80)) {
 		content = len + 1;
@@ -78,19 +76,16 @@ t_string *genrsa(uint64_t p, uint64_t q, uint64_t e)
 	uint64_t d;
 	int ret;
 
-	if (salloc(&str, "\x30\x00\x02\x01\x00", 5) == -1)
-		return (NULL);
-	ret = 0;
-	ret = ret != 0 ? -1 : addnumber(str, p * q);
-	ret = ret != 0 ? -1 : addnumber(str, e);
 	d = modmulinv(e, (p - 1) * (q - 1));
-	ret = ret != 0 ? -1 : addnumber(str, d);
-	ret = ret != 0 ? -1 : addnumber(str, p);
-	ret = ret != 0 ? -1 : addnumber(str, q);
-	ret = ret != 0 ? -1 : addnumber(str, d % (p - 1));
-	ret = ret != 0 ? -1 : addnumber(str, d % (q - 1));
-	ret = ret != 0 ? -1 : addnumber(str, modmulinv(q, p));
-	if (ret != 0) {
+	if (salloc(&str, "\x30\x00\x02\x01\x00", 5) == -1
+	|| addnumber(str, p * q) == -1
+	|| addnumber(str, e) == -1
+	|| addnumber(str, d) == -1
+	|| addnumber(str, p) == -1
+	|| addnumber(str, q) == -1
+	|| addnumber(str, d % (p - 1)) == -1
+	|| addnumber(str, d % (q - 1)) == -1
+	|| addnumber(str, modmulinv(q, p)) == -1) {
 		print_err("genrsa", NULL, NULL, errno);
 		return (NULL);
 	}
