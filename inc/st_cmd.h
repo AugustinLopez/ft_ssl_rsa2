@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 10:41:48 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/27 12:28:23 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 11:17:51 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,29 +43,17 @@
 	"-noout       \tDo not write the output on the STDOUT file descriptor\n" \
 	"-check       \tCheck the consistency of the RSA data\n"
 	
-
-typedef struct	s_utl {
-	t_string *sin;
-	t_string *sout;
-	t_string *skey;
-	char *fin;
-	char *fout;
-	char *fkey;
-	int fdout;
-	int fdin;
-	int fdkey;
-	int pubin;
-	int decrypt;
-	int hexdump;
-}				t_utl;
-
 typedef struct	s_sslrsa {
 	t_string *sin;
 	t_string *sout;
+	t_string *skey;
 	char *argin;
 	char *argout;
 	int fdout;
 	int fdin;
+	int fdkey;
+	int decrypt;
+	int hexdump;
 	int pubin;
 	int pubout;
 	int des;
@@ -89,6 +77,7 @@ typedef struct	s_rsa {
 uint32_t find_prime32(uint32_t seed, int use_seed, int output);
 int deterministic_miller_rabbin(uint64_t n);
 uint64_t modmulinv(uint64_t a, uint64_t b);
+uint64_t power_mod(uint64_t a, uint64_t b, uint64_t mod);
 void print_text(int fd, t_rsa *rsa, int pubin);
 void print_check(int fd, t_rsa *rsa);
 void print_modulus(int fd, uint8_t *number, int size);
@@ -101,7 +90,6 @@ int decode_rsa(t_sslrsa *arg, t_rsa *rsa);
 int encode_rsa(t_sslrsa *arg, t_rsa *rsa);
 int decode_private_rsa(t_sslrsa *arg, t_rsa *rsa);
 int decode_private(t_sslrsa *arg, t_rsa *rsa);
-//int decode_encrypted(t_sslrsa *arg, t_rsa *rsa);
 int readsequence(char *str, size_t *index, size_t *len);
 int readnumber(char *str, size_t *index, uint8_t *num, int *numsize);
 int rsa_load_key(t_rsa *rsa, char *pass, char *memory);

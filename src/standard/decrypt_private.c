@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/20 15:29:15 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 10:54:17 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int rsa_read_private(t_rsa *rsa, t_sslrsa *arg, size_t start, size_t end)
 	t_string *input;
 	int ret;
 
-	input = arg->sin;
+	input = arg->skey;
 	if (decode_base64(&tmp, sptr(input) + start, slen(input) - end - start) == -1)
 		return (-1);
 	ret = 0;
@@ -79,7 +79,7 @@ static int rsa_read_private(t_rsa *rsa, t_sslrsa *arg, size_t start, size_t end)
 int decode_private(t_sslrsa *arg, t_rsa *rsa)
 {
 	rsa->decrypt = 1;
-	if (ft_strncmp(sptr(arg->sin) + slen(arg->sin) - 26, "-----END PRIVATE KEY-----\n", 26) != 0)
+	if (ft_strncmp(sptr(arg->skey) + slen(arg->skey) - 26, "-----END PRIVATE KEY-----\n", 26) != 0)
 		return (-1);
 	if (rsa_read_private(rsa, arg, 28, 26) != 0)
 		return (-1);

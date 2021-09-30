@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/27 10:56:40 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 12:41:56 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void print_check(int fd, t_rsa *rsa)
 		write(fd, "private exponent not mod mult inv of e, d\n", 42);
 	if (member[EXP1] != member[PRIVATE] % (member[PRIME1] - 1) && ++err)
 		write(fd, "exp1 does not equal d mod p - 1\n", 32);
-	if (member[EXP1] != member[PRIVATE] % (member[PRIME2] - 1) && ++err)
+	if (member[EXP2] != member[PRIVATE] % (member[PRIME2] - 1) && ++err)
 		write(fd, "exp2 does not equal d mod q - 1\n", 32);
 	if (member[COEF] != modmulinv(member[PRIME2], member[PRIME1]) && ++err)
 		write(fd, "coefficient not mod mult inv of q, p\n", 37);

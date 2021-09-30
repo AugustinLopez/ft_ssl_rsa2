@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 10:27:41 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/17 12:41:22 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 11:34:13 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static uint64_t mult_mod(uint64_t a, uint64_t b, uint64_t m) {
 			b %= m;
 	}
 
-	while ( a != 0) {
+	while (a != 0) {
 		if (a & 1) {
 			if (b >= m - res)
 				res -= m;
@@ -46,7 +46,7 @@ static uint64_t mult_mod(uint64_t a, uint64_t b, uint64_t m) {
 }
 
 //Complicated stuff to avoid overflow issue
-static uint64_t power_mod(uint64_t a, uint64_t n, uint64_t mod)
+uint64_t power_mod(uint64_t a, uint64_t n, uint64_t mod)
 {
 	uint64_t power;
 	uint64_t ret;
@@ -89,11 +89,12 @@ int deterministic_miller_rabbin(uint64_t n)
 	uint64_t	s;
 
 	//case 0, 1, 2, 3, mod 2, mod 3
-	//This is because n must be > 3 in this implementation of the witness loop
-	if (((!(n & 1)) && n != 2) || (n < 2) || (n % 3 == 0 && n != 3))
+	if (n == 0 || n == 1)
 		return (0);
-	if (n <= 3)
+	if (n == 2 || n == 3)
 		return (1);
+	if (n % 2 == 0 || n % 3 == 0)
+		return (0);
 
 	//n = ((2 ^ s) * d) + 1
 	d = n / 2;
@@ -146,13 +147,13 @@ static int subject_with_oversight(uint64_t candidate, uint8_t probability)
 	int ret;
 
 	//"A probability between 0 and 100 that the given [64-bits] number is a prime.". Oof.
-	//
-	//1. For 64-bit unsigned integer there is a deterministic algorithm
-	//2. The test check if a number is not a prime. (important for 3.).
-	//3. There is NEVER a false positive. (test says not a prime if prime).
-	//   We are optimizing the false negative case. (test says prime if not a prime)
-	//4. The probability in this context depend on a number of round.
-	//5. For any given number, the probability is NEVER in a [0-100]% interval.
+
+	//1. For 64-bit unsigned integer there is a deterministic algorithm: no need for probability.
+	//2. We are not checking if a number is a prime, but if it is NOT a prime (easier). thus,
+	//3. There is NEVER a false positive. (case when result says not a prime when prime).
+	//   We are optimizing the false negative. (case when result says prime when not a prime)
+	//4. The probability depend on a number of round: this should be the function argument instead of the probability, Moreover,
+	//5. For any given number and assuming a round number, the probability is at best in a ]0-100[% interval. Narrower in reality.
 
 	ret = deterministic_miller_rabbin(candidate);
 	//I will only defend against the case probability = 0%...

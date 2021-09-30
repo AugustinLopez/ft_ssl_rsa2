@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readrsa.c                                          :+:      :+:    :+:   */
+/*   decrypt_private_rsa.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/27 12:29:36 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/09/30 10:54:24 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int rsa_decrypt(t_rsa *rsa, t_sslrsa *arg, size_t start, size_t end)
 	t_string *input;
 	int ret;
 
-	input = arg->sin;
+	input = arg->skey;
 	if (decode_base64(&tmp, sptr(input) + start, slen(input) - end - start) == -1)
 		return (-1);
 	if (rsa->key_count == 1)
@@ -89,19 +89,19 @@ int decode_private_rsa(t_sslrsa *arg, t_rsa *rsa)
 	int i;
 
 	rsa->decrypt = 1;
-	if (ft_strncmp(sptr(arg->sin) + slen(arg->sin) - 30, "-----END RSA PRIVATE KEY-----\n", 30) != 0)
+	if (ft_strncmp(sptr(arg->skey) + slen(arg->skey) - 30, "-----END RSA PRIVATE KEY-----\n", 30) != 0)
 		return (-1);
-	if (ft_strncmp(sptr(arg->sin) + 32, "Proc-Type: 4,ENCRYPTED\nDEK-Info: DES-", 37) == 0) {
-		if (ft_strncmp(sptr(arg->sin) + 69, "CBC,", 4) == 0)
+	if (ft_strncmp(sptr(arg->skey) + 32, "Proc-Type: 4,ENCRYPTED\nDEK-Info: DES-", 37) == 0) {
+		if (ft_strncmp(sptr(arg->skey) + 69, "CBC,", 4) == 0)
 			rsa->key_count = 1;
-		else if (ft_strncmp(sptr(arg->sin) + 69, "EDE3-CBC,", 9) == 0)
+		else if (ft_strncmp(sptr(arg->skey) + 69, "EDE3-CBC,", 9) == 0)
 			rsa->key_count = 3;
 		else
 			return (-1);
 		i = rsa->key_count == 1 ? 73 : 78;
-		if (load_rsa_salt(arg->sin, rsa, i) != 0)
+		if (load_rsa_salt(arg->skey, rsa, i) != 0)
 			return (-1);
-		if (ft_strncmp(sptr(arg->sin) + i + 16, "\n\n", 2) != 0)
+		if (ft_strncmp(sptr(arg->skey) + i + 16, "\n\n", 2) != 0)
 			return (-1);
 		i += 18;
 		if (rsa_load_key(rsa, arg->argin, NULL) != 0)
