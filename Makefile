@@ -6,7 +6,7 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/09/30 16:09:34 by aulopez          ###   ########.fr        #
+#    Updated: 2021/10/03 20:51:04 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ CC_O=$(COMPILER) $(FLAGS) -c -I$(PATH_HDR)
 CC_C=$(COMPILER) $(FLAGS) $(OBJ)
 
 CMD=main type_none type_digest type_cypher type_standard
-MYLIB=ft_string ft_print ft_strsplit ft_funinfo ft_rand ft_fd
+MYLIB=ft_string ft_print ft_strsplit ft_funinfo ft_rand ft_fd \
+	ft_memcpy ft_memset ft_memmove ft_memcmp ft_strlen ft_strcmp ft_strncmp \
+	ft_strncpy ft_strchr ft_strncat ft_memccpy
 DIGEST=digest di_utils md5 sha256 sha512
 CYPHER=cypher cypher64 decode_b64 encode_b64 des_input des_output \
 	des_algorithm des_ecb des3_ecb des_cbc des3_cbc des_cfb des3_cfb \
