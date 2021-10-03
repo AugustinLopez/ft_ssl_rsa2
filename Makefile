@@ -6,13 +6,13 @@
 #    By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 13:11:21 by aulopez           #+#    #+#              #
-#    Updated: 2021/10/03 20:51:04 by aulopez          ###   ########.fr        #
+#    Updated: 2021/10/03 21:11:17 by aulopez          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=ft_ssl
 COMPILER=gcc
-FLAGS=-g3 -Wall -Wextra -MMD -MP
+FLAGS=-g3 -Werror -Wall -Wextra -MMD -MP
 
 VPATH=	src/cmd:src/mylib:src/digest:src/cypher:src/cypher/base64:src/standard\
 		:src/standard/genrsa

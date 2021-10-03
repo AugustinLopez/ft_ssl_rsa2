@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 16:55:23 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:08:10 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 #include <fcntl.h>
 #include <errno.h>
 
-int readsequence(char *str, size_t *index, size_t *len)
+int readsequence(char *str, size_t *index, size_t *len, size_t max)
 {
 	size_t j;
 
-	if (str[(*index)++] != 0x30)
+	if (str[(*index)++] != 0x30 || *index > max)
 		return (-1);
 	*len = (uint8_t)str[(*index)++];
+	if (*index > max)
+		return (-1);
 	if (*len >= 0x80) {
 		j = *len - 0x80;
 		if (j > 2) { //enough for 65536 bytes > more than enough for 4096 bits key
@@ -33,8 +35,11 @@ int readsequence(char *str, size_t *index, size_t *len)
 			return (-1);
 		}
 		*len = 0;
-		while (j-- > 0)
+		while (j-- > 0) {
 			*len = (*len << 8) + (uint8_t)str[(*index)++];
+			if (*index > max)
+				return (-1);
+		}
 	}
 	else if (*len == 0) {
 		print_err(NULL, NULL, "unexpected zero size", 0);
@@ -43,14 +48,16 @@ int readsequence(char *str, size_t *index, size_t *len)
 	return (0);
 }
 
-int readnumber(char *str, size_t *index, uint8_t *num, int *numsize)
+int readnumber(char *str, size_t *index, uint8_t *num, int *numsize, size_t max)
 {
 	int imax;
 	size_t j;
 
-	if (str[(*index)++] != 0x02)
+	if (str[(*index)++] != 0x02 || *index > max)
 		return (-1);
 	imax = (uint8_t)str[(*index)++];
+	if (*index > max)
+		return (-1);
 	if (imax >= 0x80) {
 		j = imax - 0x80;
 		if (j > 2) { //enough for 65536 bytes, more than enough for 4096 bits key.
@@ -58,8 +65,11 @@ int readnumber(char *str, size_t *index, uint8_t *num, int *numsize)
 			return (-1);
 		}
 		imax = 0;
-		while (j-- > 0)
+		while (j-- > 0) {
 			imax = (imax << 8) + (uint8_t)str[(*index)++];
+			if (*index > max)
+				return (-1);
+		}
 	}
 	else if (imax == 0) {
 		print_err(NULL, NULL, "unexpected zero size", 0);
@@ -70,6 +80,9 @@ int readnumber(char *str, size_t *index, uint8_t *num, int *numsize)
 			++*index;
 		else
 			num[(*numsize)++] = (uint8_t)str[(*index)++];
+		if (*index > max)
+			return (-1);
+
 	}
 	return (0);
 }

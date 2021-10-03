@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 10:41:48 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 11:17:51 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:05:45 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int decode_rsa(t_sslrsa *arg, t_rsa *rsa);
 int encode_rsa(t_sslrsa *arg, t_rsa *rsa);
 int decode_private_rsa(t_sslrsa *arg, t_rsa *rsa);
 int decode_private(t_sslrsa *arg, t_rsa *rsa);
-int readsequence(char *str, size_t *index, size_t *len);
-int readnumber(char *str, size_t *index, uint8_t *num, int *numsize);
+int readsequence(char *str, size_t *index, size_t *len, size_t max);
+int readnumber(char *str, size_t *index, uint8_t *num, int *numsize, size_t max);
 int rsa_load_key(t_rsa *rsa, char *pass, char *memory);
 int rsa_load_pass(char *pass, char *buff, char *memory);
 #endif

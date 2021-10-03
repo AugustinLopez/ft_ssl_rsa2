@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 10:54:24 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:08:30 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ static int readrsa_priv(char *str, size_t len, t_rsa *rsa)
 
 	i = 0;
 	(void)len;
-	if (readsequence(str, &i, &imax) == -1)
+	if (readsequence(str, &i, &imax, len) == -1)
 		return (-1);
 	if (ft_memcmp(str + i, "\x02\x01\x00", 3) != 0)
 		return (-1);
 	i += 3;
 	for (j = 0; j<RSA_MEMBER_COUNT; j++){
-		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j])) == -1)
+		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j]), len) == -1)
 			return (-1);
 	}
 	return (0);

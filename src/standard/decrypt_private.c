@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 10:54:17 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:10:56 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ static int readrsa_privall(char *str, size_t len, t_rsa *rsa)
 
 	(void)len;
 	i = 0;
-	if (readsequence(str, &i, &imax) == -1)
+	if (readsequence(str, &i, &imax, len) == -1)
+		return (-1);
+	if (i + 3 + 16 > len)
 		return (-1);
 	if (ft_memcmp(str + i, "\x02\x01\x00", 3) != 0)
 		return (-1);
@@ -43,18 +45,23 @@ static int readrsa_privall(char *str, size_t len, t_rsa *rsa)
 		if (j > 2)
 			return (-1);
 		imax = 0;
-		while (j-- > 0)
+		while (j-- > 0) {
 			imax = (imax << 8) + (uint8_t)str[i++];
+			if (i > len)
+				return (-1);
+		}
 	}
 	if (type == 0x03 && str[i++] != 0x00)
 		return (-1);
-	if (readsequence(str, &i, &imax) == -1)
+	if (readsequence(str, &i, &imax, len) == -1)
 		return (-1);
 	if (ft_memcmp(str + i, "\x02\x01\x00", 3) != 0)
 		return (-1);
 	i += 3;
+	if (i > len)
+		return (-1);
 	for (j = 0; j<RSA_MEMBER_COUNT; j++){
-		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j])) == -1)
+		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j]), len) == -1)
 			return (-1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 16:55:41 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/03 21:07:27 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static int readrsa_pub(char *str, size_t len, t_rsa *rsa)
 
 	(void)len;
 	i = 0;
-	if (readsequence(str, &i, &imax) == -1)
+	if (readsequence(str, &i, &imax, len) == -1)
 		return (-1);
 	for (j = 0; j< 2; j++){
-		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j])) == -1)
+		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j]), len) == -1)
 			return (-1);
 	}
 	return (0);
@@ -43,7 +43,7 @@ static int readrsa_puball(char *str, size_t len, t_rsa *rsa)
 
 	(void)len;
 	i = 0;
-	if (readsequence(str, &i, &imax) == -1)
+	if (readsequence(str, &i, &imax, len) == -1)
 		return (-1);
 	if (ft_memcmp(str + i, "\x30\x0d\x06\x09\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01\x05\x00", 15) != 0)
 		return (-1);
@@ -62,10 +62,10 @@ static int readrsa_puball(char *str, size_t len, t_rsa *rsa)
 	}
 	if (type == 0x03 && str[i++] != 0x00)
 		return (-1);
-	if (readsequence(str, &i, &imax) == -1)
+	if (readsequence(str, &i, &imax, len) == -1)
 		return (-1);
 	for (j = 0; j< 2; j++){
-		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j])) == -1)
+		if (readnumber(str, &i, (rsa->member[j]), &(rsa->size[j]), len) == -1)
 			return (-1);
 	}
 	return (0);
