@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 14:57:02 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/17 12:46:11 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/04 07:52:31 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int cypher_input(t_string **str, char *filename)
 		fd = open(filename, O_RDONLY);
 		if (fd < 0 || sfromfd(str, fd) == -1) {
 			print_err("cypher", filename, 0, errno);
-			if (fd >= 0 & close(fd) < 0)
+			if (fd >= 0 && close(fd) < 0)
 				print_err("Warning", filename, 0, errno);
 			return (-1);
 		}

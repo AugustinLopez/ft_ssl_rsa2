@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:20:26 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/10 14:37:55 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/04 07:51:54 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,13 +218,13 @@ void strim(t_string *str)
 	while (str->len) {
 		if (str->ptr[0] != ' ')
 			break ;
-			str->ptr++;
-			str->len--;
+		str->ptr++;
+		str->len--;
 	}
 	while (str->len) {
 		if (str->ptr[str->len] != ' ')
 			break ;
-			str->len--;
+		str->len--;
 	}
 	str->ptr[str->len] = '\0';
 }

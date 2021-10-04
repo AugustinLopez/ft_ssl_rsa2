@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 13:00:56 by aulopez           #+#    #+#             */
-/*   Updated: 2021/06/11 01:10:57 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/04 07:53:11 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ void	des3_cfb(uint8_t *str, size_t len, uint8_t *nkey, uint8_t *vector, int decr
 	uint8_t nr48key[3][16][6];
 	uint8_t tmp[8];
 	uint8_t save[8];
-	int n[3];
 
-	n[0] = 0;
-	n[1] = 1;
-	n[2] = 2;
 	ft_memset(nr48key, 0, sizeof(nr48key));
 	ft_memcpy(save, vector, 8);
 	des_key(3, nkey, nr48key);
