@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 10:27:41 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 15:57:43 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/04 08:18:39 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ static int subject_with_oversight(uint64_t candidate, uint8_t probability)
 	return (ret);
 }
 
-uint32_t find_prime32(uint32_t seed, int use_seed, int output) {
+uint32_t find_prime32(uint32_t seed, int use_seed, int output, uint32_t ignore) {
 	uint32_t ret;
 	int test;
 
@@ -177,13 +177,15 @@ uint32_t find_prime32(uint32_t seed, int use_seed, int output) {
 	if (output)
 		write(STDERR_FILENO, ".", 1);
 	while (1) {
-		if (test == 1)
+		if (test == 1 && ret != ignore)
 			break ;
 		test = subject_with_oversight(++ret, 100);
-		if (output)
+		if (output && ret != ignore)
 			write(STDERR_FILENO, ".", 1);
+		else if (output && ret == ignore)
+			write(STDERR_FILENO, "*", 1);
 	}
-	if (output)
-		write(STDERR_FILENO, "*\n", 2);
+if (output)
+		write(STDERR_FILENO, "+\n", 2);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 10:41:48 by aulopez           #+#    #+#             */
-/*   Updated: 2021/10/03 21:05:45 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/04 08:17:17 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct	s_rsa {
 	int decrypt;
 }				t_rsa;
 
-uint32_t find_prime32(uint32_t seed, int use_seed, int output);
+uint32_t find_prime32(uint32_t seed, int use_seed, int output, uint32_t ignore);
 int deterministic_miller_rabbin(uint64_t n);
 uint64_t modmulinv(uint64_t a, uint64_t b);
 uint64_t power_mod(uint64_t a, uint64_t b, uint64_t mod);

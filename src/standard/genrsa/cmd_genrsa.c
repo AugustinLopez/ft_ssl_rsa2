@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 16:10:40 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/04 08:15:24 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ static int parsing(int ac, char **av, char **in, char **out) {
 	return (1);
 }
 
+#include <stdio.h>
+
 static int nbr_in(char *in, uint64_t *a, uint64_t *b) {
 	int fdin;
 
 	if (in == NULL) {
-		*a = find_prime32(0, 0, 1);
-		*b = find_prime32(0, 0, 1);
+		*a = find_prime32(0, 0, 1, 0);
+		*b = find_prime32(0, 0, 1, *a);
 	}
 	else {
 		fdin = fdinput(in, "genrsa");
@@ -63,9 +65,9 @@ static int nbr_in(char *in, uint64_t *a, uint64_t *b) {
 		if (fdin != STDIN_FILENO && close(fdin) < 0)
 			print_err("Warning", in, 0, errno);
 		*a = *a & 0xffff;
-		*b = (*a >> 16) & 0xffff;
-		*a = find_prime32(*a, 1, 1);
-		*b = find_prime32(*b, 1, 1);
+		*b = (*a >> 32) & 0xffff;
+		*a = find_prime32(*a, 1, 1, 0);
+		*b = find_prime32(*b, 1, 1, *a);
 	}
 	return (0);
 }
