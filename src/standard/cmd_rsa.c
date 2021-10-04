@@ -6,7 +6,7 @@
 /*   By: aulopez <aulopez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/17 13:23:08 by aulopez           #+#    #+#             */
-/*   Updated: 2021/09/30 16:47:33 by aulopez          ###   ########.fr       */
+/*   Updated: 2021/10/04 08:41:19 by aulopez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int cmd_rsa(int ac, char **av)
 	if (arg.modulus == 1)
 		print_modulus(STDERR_FILENO, rsa.member[MODULO], rsa.size[MODULO]);
 	if (arg.check == 1)
-		print_check(arg.fdout, &rsa);
+		print_check(STDERR_FILENO, &rsa);
 	if (arg.noout == 0)
 		write(STDERR_FILENO, "writing RSA key\n", 16);
 	if (arg.noout == 0 || arg.fdout != STDOUT_FILENO)
